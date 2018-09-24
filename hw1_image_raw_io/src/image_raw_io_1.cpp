@@ -8,9 +8,9 @@ int main(int argc, char** argv )
 	int width = 256;
 	int height = 256;
 	int size = width*height;
-	char OriFile[] = "../images/lena_256.raw";    //Input Image name
-	char OutFileRotFace[] = "../images/lena_256_rot_face.raw"; //Output Raw Image name
-  char OutFileBright[] = "../images/lena_256_bright.raw"; //Output Raw Image name
+	char OriFile[] = "../images/lena_256.raw";    // Input Image name
+	char OutFileRotFace[] = "../images/lena_256_rot_face.raw"; // Output Raw Image name
+  char OutFileBright[] = "../images/lena_256_bright.raw"; // Output Raw Image name
 
 	//-----------------------1. Read File-----------------------//
 	FILE *lenaFile, *resultRotFace, *resultBright;
@@ -143,8 +143,11 @@ int main(int argc, char** argv )
 	// -----------------------5. Release memory-----------------------//
 	fclose(lenaFile);
 	fclose(resultRotFace);
+  fclose(resultBright);
   cv::waitKey(0);
 	cv::destroyWindow("lenaFile");
+  cv::destroyWindow("lenaRotated");
+  cv::destroyWindow("lenaRotatedFace");
   delete lenai;
   delete lena_face_rot_raw;
   delete lena_bright_raw;
