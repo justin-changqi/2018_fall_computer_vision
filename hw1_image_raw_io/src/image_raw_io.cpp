@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <iostream>
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
@@ -7,8 +8,8 @@ int main(int argc, char** argv )
 	int width = 256;
 	int height = 256;
 	int size = width*height;
-	char OriFile[] = "lena256.raw";    //Input Image name
-	char OutFile[] = "lena256out.raw"; //Output Raw Image name
+	char OriFile[] = "../images/lena_256.raw";    //Input Image name
+	char OutFile[] = "../images/lena_256out.raw"; //Output Raw Image name
 
 	//-----------------------1. Read File-----------------------//
 	FILE *lenaFile, *resultFile;
@@ -20,14 +21,21 @@ int main(int argc, char** argv )
 		exit(0);
 	}
 
-	unsigned char *lenai = new unsigned char[size];
-	fread(lenai, 1, size, lenaFile);
+	// char *lenai = new char[size];
+  char lenai[width][height];
+
+	fread(lenai, sizeof(char), size, lenaFile);
 
 	// -----------------------2. Transfer data type to OpenCV-----------------------//
 	// Mat type
 	cv::Mat lenaMat = cv::Mat(height, width, CV_8UC1);
-
-	//Set lenai data into lenaIpl
+  for (int i = 0; i < lenaMat.rows; i++)
+  {
+    for (int j = 0; j < lenaMat.cols; j++)
+    {
+      lenaMat.at<char>(i, j) = lenai[i][j];
+    }
+  }
 
 	// -----------------------3. Create window and show your Image-----------------------//
 	cv::namedWindow("lenaFile", 0);
