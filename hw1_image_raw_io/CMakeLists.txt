@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8)
+project( image_raw_io )
+find_package( OpenCV REQUIRED )
+add_executable( image_raw_io src/image_raw_io.cpp )
+target_link_libraries( image_raw_io ${OpenCV_LIBS} )
