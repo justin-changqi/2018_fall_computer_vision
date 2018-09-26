@@ -5,6 +5,7 @@ Homework source code for 2018 fall term computer vision course at Taipei Tech MS
 - Ubuntu16.04
 - OpenCV 3.3
 - CMake 2.8
+- C++ 11
 
 ## Compile and execute code
 This repository consists of mutiple CMake projects. Please follow the steps below for building the source code and execute.
