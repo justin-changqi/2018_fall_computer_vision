@@ -19,11 +19,12 @@ void loadRawFile(cv::Mat &dst_img, std::string file_path, int width, int height)
 cv::Mat getQuantizeImage(cv::Mat &src, int num_bit)
 {
   cv::Mat img_out(src.rows, src.cols, CV_8UC1);
+  char mask = 0xff << (8-num_bit);
   for (int i = 0; i < src.rows; i++)
   {
     for (int j = 0; j < src.cols; j++)
     {
-      img_out.at<char>(i, j) = src.at<char>(i, j) >> (8 - num_bit);
+      img_out.at<char>(i, j) = src.at<char>(i, j) & mask;
     }
   }
   return img_out;
@@ -53,6 +54,19 @@ void showAllImages(std::vector<cv::Mat> &list, std::string prefix)
   }
 }
 
+double getMSE(cv::Mat &src, cv::Mat &target)
+{
+  double mse = 0;
+  for (int i = 0; i < src.rows; i++)
+  {
+    for (int j = 0; j < src.cols; j++)
+    {
+      mse += pow(src.at<char>(i, j) - target.at<char>(i, j), 2);
+    }
+  }
+  return mse/(src.rows * src.cols);
+}
+
 int main(int argc, char **argv)
 {
   cv::Mat lena_src(256, 256, CV_8UC1);
@@ -61,10 +75,22 @@ int main(int argc, char **argv)
   loadRawFile(baboon_src, "../images/baboon_256.raw", 256, 256);
   std::vector<cv::Mat> lena_result_list;
   std::vector<cv::Mat> baboon_result_list;
+  // get quantize data from 1 bit to 8 bits
+  std::cout << "Lena MSE:" << std::endl;
   for (int i = 1; i <= 8; i++)
   {
     lena_result_list.push_back(getQuantizeImage(lena_src, i));
     baboon_result_list.push_back(getQuantizeImage(baboon_src, i));
+  }
+  // calculate MSE and PSNR
+  for (int i = 0; i < 8; i++)
+  {
+    std::cout << "  lena " << i+1 << " bits: " << getMSE(lena_src, lena_result_list[i]) << std::endl;
+  }
+  std::cout << "Baboon MSE:" << std::endl;
+  for (int i = 0; i < 8; i++)
+  {
+    std::cout << "  baboon " << i+1 << " bits: " << getMSE(baboon_src, baboon_result_list[i]) << std::endl;
   }
   showAllImages(lena_result_list, "lena");
   showAllImages(baboon_result_list, "baboon");
