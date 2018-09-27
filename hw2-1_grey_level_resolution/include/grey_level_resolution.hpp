@@ -7,3 +7,4 @@ cv::Mat getQuantizeImage(cv::Mat &src, int num_bit);
 void showImage(std::string win_name, cv::Mat &show_img);
 void showAllImages(std::vector<cv::Mat> &list, std::string prefix);
 double getMSE(cv::Mat &src, cv::Mat &target);
+double getPSNR(double mse, int num_bits);

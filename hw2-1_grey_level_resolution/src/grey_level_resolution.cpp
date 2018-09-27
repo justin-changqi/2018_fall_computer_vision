@@ -67,6 +67,12 @@ double getMSE(cv::Mat &src, cv::Mat &target)
   return mse/(src.rows * src.cols);
 }
 
+double getPSNR(double mse, int num_bits)
+{
+  char max_i = 0xff >> (8 - num_bits);
+  return 10 * log10(pow(max_i, 2) / mse);
+}
+
 int main(int argc, char **argv)
 {
   cv::Mat lena_src(256, 256, CV_8UC1);
@@ -76,21 +82,44 @@ int main(int argc, char **argv)
   std::vector<cv::Mat> lena_result_list;
   std::vector<cv::Mat> baboon_result_list;
   // get quantize data from 1 bit to 8 bits
-  std::cout << "Lena MSE:" << std::endl;
   for (int i = 1; i <= 8; i++)
   {
     lena_result_list.push_back(getQuantizeImage(lena_src, i));
     baboon_result_list.push_back(getQuantizeImage(baboon_src, i));
   }
   // calculate MSE and PSNR
+  std::vector<double> lena_mse_list;
+  std::vector<double> lena_psnr_list;
+  std::vector<double> baboon_mse_list;
+  std::vector<double> baboon_psnr_list;
   for (int i = 0; i < 8; i++)
   {
-    std::cout << "  lena " << i+1 << " bits: " << getMSE(lena_src, lena_result_list[i]) << std::endl;
+    double lena_mse = getMSE(lena_src, lena_result_list[i]);
+    double baboon_mse = getMSE(baboon_src, baboon_result_list[i]);
+    lena_mse_list.push_back(lena_mse);
+    baboon_mse_list.push_back(baboon_mse);
+    lena_psnr_list.push_back(getPSNR(lena_mse, i+1));
+    baboon_psnr_list.push_back(getPSNR(baboon_mse, i+1));
+  }
+  std::cout << "Lena MSE:" << std::endl;
+  for (int i = 0; i < 8; i++)
+  {
+    std::cout << "  lena " << i+1 << " bits: " << lena_mse_list[i] << std::endl;
+  }
+  std::cout << "Lena PSNR:" << std::endl;
+  for (int i = 0; i < 8; i++)
+  {
+    std::cout << "  lena " << i+1 << " bits: " << lena_psnr_list[i] << " db" << std::endl;
   }
   std::cout << "Baboon MSE:" << std::endl;
   for (int i = 0; i < 8; i++)
   {
-    std::cout << "  baboon " << i+1 << " bits: " << getMSE(baboon_src, baboon_result_list[i]) << std::endl;
+    std::cout << "  baboon " << i+1 << " bits: " << baboon_mse_list[i] << std::endl;
+  }
+  std::cout << "Baboon PSNR:" << std::endl;
+  for (int i = 0; i < 8; i++)
+  {
+    std::cout << "  lena " << i+1 << " bits: " << baboon_psnr_list[i] << " db" << std::endl;
   }
   showAllImages(lena_result_list, "lena");
   showAllImages(baboon_result_list, "baboon");
