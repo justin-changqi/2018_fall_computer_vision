@@ -73,6 +73,18 @@ double getPSNR(double mse, int num_bits)
   return 10 * log10(pow(max_i, 2) / mse);
 }
 
+void saveAllImage(std::vector<cv::Mat> &list, 
+                  std::string save_folder, 
+                  std::string prefix)
+{
+  for (int i = 0; i < list.size(); i++)
+  {
+    std::string save_file = save_folder + prefix + " " + 
+                            std::to_string(i + 1) + " bits.png";
+    cv::imwrite(save_file, list[i]);
+  }
+}
+
 int main(int argc, char **argv)
 {
   cv::Mat lena_src(256, 256, CV_8UC1);
@@ -121,6 +133,8 @@ int main(int argc, char **argv)
   {
     std::cout << "  lena " << i+1 << " bits: " << baboon_psnr_list[i] << " db" << std::endl;
   }
+  saveAllImage(lena_result_list, "../result_img_2_1/", "lena");
+  saveAllImage(baboon_result_list, "../result_img_2_1/", "baboon");
   showAllImages(lena_result_list, "lena");
   showAllImages(baboon_result_list, "baboon");
   cv::waitKey(0);
