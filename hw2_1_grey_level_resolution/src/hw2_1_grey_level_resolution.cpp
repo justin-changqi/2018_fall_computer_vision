@@ -1,4 +1,4 @@
-#include "grey_level_resolution.hpp"
+#include "hw2_1_grey_level_resolution.hpp"
 
 void loadRawFile(cv::Mat &dst_img, std::string file_path, int width, int height)
 {
