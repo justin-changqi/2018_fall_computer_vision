@@ -12,5 +12,5 @@ message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
 include_directories(include)
 
 # Homework 2.1 souce code
-add_executable( grey_level_resolution src/grey_level_resolution.cpp )
-target_link_libraries( grey_level_resolution ${OpenCV_LIBS} )
+add_executable( hw2_1_grey_level_resolution src/hw2_1_grey_level_resolution.cpp )
+target_link_libraries( hw2_1_grey_level_resolution ${OpenCV_LIBS} )
