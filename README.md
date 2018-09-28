@@ -15,6 +15,6 @@ cd CMAKE_PROJECT_FOLDER
 mkdir build && cd build
 cmake ..
 make
-# excute
+# execute
 ./EXE_FILE_NAME
 ```
