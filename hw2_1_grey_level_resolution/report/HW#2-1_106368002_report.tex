@@ -28,7 +28,7 @@ Advisor: 電子所 高立人 \hfill justin840727@gmail.com \\
 \end{CJK}
 
 \section*{Problem 1 Grey-level resolution with C++}
-\begin{enumerate}[label=\alph*]
+\begin{enumerate}[label=\alph*.]
   \item Using C/C++ to quantize the gray-level resolution of lena\_256.raw and 
   baboon\_256.raw from 8 bits to 1 bit. Show the results of these quantize images 
   and explain the difference between each result image. (Figure, 15\%; Discussion, 10\%)
@@ -90,7 +90,7 @@ Advisor: 電子所 高立人 \hfill justin840727@gmail.com \\
       \includegraphics[width=\linewidth]{{"../result_img_2_1/baboon 5 bits"}.png}
       \caption{Baboon 5 bits.}
     \end{subfigure}
-    \label{fig:baboon8to1bit_1}
+    \label{fig:baboon8to1bit}
   \end{figure}
   \begin{figure}[h]
     \ContinuedFloat
@@ -112,14 +112,22 @@ Advisor: 電子所 高立人 \hfill justin840727@gmail.com \\
       \caption{Lena 1 bits.}
     \end{subfigure}
     \caption{baboon\_256.raw grey-level resolution from 8 bits to 1 bit.}
-    \label{fig:baboon8to1bit_2}
+    \label{fig:baboon8to1bit}
   \end{figure}
   \newpage
+  In this section, we compare \textbf{False Contouring} between Lena 
+  (Figure~\ref{fig:lena8to1bit}) and Baboon (Figure~\ref{fig:baboon8to1bit}) images. 
+  In Lena's case, when the grey-level resolution down to 3 bits. The figure shows obvious 
+  False contouring. In Baboon case, the false contouring effect happens in 2 bits grey-level 
+  resolution. Then we know false contouring might happen in different bit number in different
+  detail images. For low detail image like Lena, we need to represent the image with more 
+  bits than high detail baboon image. The results for this problem is matching the 
+  Isopreference Curve theory.
   \item Calculate the corresponding with MSE (Mean Square Error, study yourself) and PSNR value.
   (Discussion, 10\%)
   \subsection*{Ans}
-  \subsection*{Source code}
 \end{enumerate}
+\subsection*{Source code for Problem 1}
 
 
 % \section*{Investigation/Research}
