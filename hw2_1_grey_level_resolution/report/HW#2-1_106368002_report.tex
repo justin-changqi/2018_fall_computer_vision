@@ -7,6 +7,7 @@
     \usepackage{titlesec}
     \usepackage{graphicx}     % for figure
     \usepackage{subcaption}   % for figure
+    \usepackage[export]{adjustbox}
 \renewcommand{\theenumi}{\alph{enumi}}
 
 \titlespacing*{\section}
@@ -126,17 +127,69 @@ Advisor: 電子所 高立人 \hfill justin840727@gmail.com \\
   \item Calculate the corresponding with MSE (Mean Square Error, study yourself) and PSNR value.
   (Discussion, 10\%)
   \subsection*{Ans}
+  For calculate the MES (Mean square error) for the images, we use Equation~(\ref{eqr:mse}) 
+  \cite{MSE-wiki}.
+  \begin{equation}
+    MSE=\frac{1}{n}\sum_{i=1}^{n}(I_{i}-\hat{I}_{i})^2
+    \label{eqr:mse}
+  \end{equation}
+  The total number of pixels \textbf{n} is define as images $width \times height$. And 
+  we sum up the square of pixel difference between original image \textbf{$I_{i}$} and resample
+  image \textbf{$\hat{I_{i}}$}.
+
+  \vspace{1em}
+  The equation for PSNR (Peak signal-to-noise ratio) value shows in Equation~(\ref{eqr:psnr}) below.
+  \begin{equation}
+    PSNR=10\cdot \log_{10}(\frac{MAX_I^2}{MSE})
+    \label{eqr:psnr}
+  \end{equation}
+  Here, the $MAX_I$ is the maximux pixel value of the image. For example, In 8 bits case, the 
+  $MAX_I=2^8-1=255$. MSE is same value that is calculated by Equation~(\ref{eqr:mse}) \cite{PSNR-wiki}.
+
+  \vspace{1em}
+  The execute results for MSE and PSNR of different grey-level resolution are show on 
+  Figure~\ref{fig:hw2_1b}.
+  \begin{figure}[h]
+    \centering
+    \adjincludegraphics[width=.5\textwidth, trim={0 {0.76\height} 0 0},clip]{{"img_src/hw2_1b"}.png}
+  \end{figure}
+  \begin{figure}[h]
+    \centering
+    \adjincludegraphics[width=.5\textwidth, trim={0 0 0 {0.24\height}},clip]{{"img_src/hw2_1b"}.png}
+    \caption{MSE and PSNR results for different grey-level resolution.}
+    \label{fig:hw2_1b}
+  \end{figure}
+
+  The result shows that if we represent the image with more bits. The MSE will be lower and 
+  the PSNR value is higher. When there is no error between two images ($MSE=0$), the PSNR will 
+  become infinity high.
 \end{enumerate}
 \subsection*{Source code for Problem 1}
-
-
-% \section*{Investigation/Research}
-% \lipsum[2]
-    
+\it{hw2\_1\_grey\_level\_resolution.hpp}
+\begin{figure}[h]
+  \centering
+  \adjincludegraphics[width=\textwidth, trim={0 {0.01\height} 0 0},clip]{{"img_src/hw2_1hpp"}.png}
+\end{figure}
+\newpage
+\it{hw2\_1\_grey\_level\_resolution.cpp}
+\begin{figure}[h!]
+  \centering
+  \adjincludegraphics[width=\textwidth, trim={0 {0.576\height} 0 0},clip]{{"img_src/hw2_1cpp"}.png}
+\end{figure}
+\begin{figure}[h!]
+  \centering
+  \adjincludegraphics[width=\textwidth, trim={0 {0.155\height} 0 {0.424\height}},clip]{{"img_src/hw2_1cpp"}.png}
+\end{figure}
+\begin{figure}[h!]
+  \centering
+  \adjincludegraphics[width=\textwidth, trim={0 0 0 {0.845\height}},clip]{{"img_src/hw2_1cpp"}.png}
+\end{figure}
+\newline
 \begin{thebibliography}{9}
-	\bibitem{Robotics} Fred G. Martin \emph{Robotics Explorations: A Hands-On Introduction to Engineering}. New Jersey: Prentice Hall.
-	\bibitem{Flueck}  Flueck, Alexander J. 2005. \emph{ECE 100}[online]. Chicago: Illinois Institute of Technology, Electrical and Computer Engineering Department, 2005 [cited 30
-	August 2005]. Available from World Wide Web: (http://www.ece.iit.edu/~flueck/ece100).
+  \bibitem{MSE-wiki} Wikipedia. \emph{Mean squared error}[online]. \\
+  Available from World Wide Web: (https://en.wikipedia.org/wiki/Mean\_squared\_error).
+  \bibitem{PSNR-wiki} Wikipedia. \emph{Peak signal-to-noise ratio}[online].\\
+  Available from World Wide Web: \\
+  (https://en.wikipedia.org/wiki/Peak\_signal-to-noise\_ratio).
 \end{thebibliography}
-    
 \end{document}
