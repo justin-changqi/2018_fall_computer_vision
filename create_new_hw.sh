@@ -31,4 +31,10 @@ for file in $_src_codes_list
 do
     echo "    ./include/$file"".hpp"
     echo "    ./src/$file"".cpp"
+    touch "src/$file"".cpp"
+    touch "include/$file"".hpp"
+    echo "#include \"$file"".hpp\"" >> "src/$file"".cpp"
+    echo "" >> CMakeLists.txt
+    echo "add_executable( "$file src/$file.cpp" )" >> CMakeLists.txt
+    echo "target_link_libraries( "$file "\${OpenCV_LIBS} )" >> CMakeLists.txt
 done
