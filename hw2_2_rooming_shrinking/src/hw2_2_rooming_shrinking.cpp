@@ -81,7 +81,6 @@ void rowColDeletion(cv::Mat &src_img, cv::Mat &dst_img)
 void nearestNeighboring(cv::Mat &src_img, cv::Mat &dst_img)
 {
   cv::Mat mat_status(dst_img.rows,dst_img.cols, CV_8UC1, cv::Scalar(0));
-  std::vector<std::array<int, 2> > pixel_list;
   double scale = (double)dst_img.cols / (double)src_img.cols;
   for (int i = 0; i < src_img.rows; i++)
   {
@@ -94,30 +93,40 @@ void nearestNeighboring(cv::Mat &src_img, cv::Mat &dst_img)
         mat_status.at<char>(y, x) = 1;
         std::array<int, 2> index{ {y, x} }; 
         dst_img.at<char>(y, x) =  src_img.at<char>(i, j);
-        pixel_list.push_back(index);
       }
     }
   }
   // find nearest point and fill in dara to images
-  for (int i = 0; i < dst_img.rows; i++)
+  int search_margin = scale + 1;
+  for (int i = 0; i < mat_status.rows; i++)
   {
-    for (int j = 0; j < dst_img.cols; j++)
+    for (int j = 0; j < mat_status.cols; j++)
     {
-      if (mat_status.at<char>(i, j) != 1)
+      if  (mat_status.at<char>(i, j) != 1)
       {
+        int min_x = std::max(0, j - search_margin);
+        int min_y = std::max(0, i - search_margin);
+        int max_x = std::min(mat_status.cols - 1, j + search_margin);
+        int max_y = std::min(mat_status.rows - 1, i + search_margin);
         int index[2];
-        double nearest_dis = dst_img.rows + dst_img.cols;
-        for (auto &pt : pixel_list) // access by reference to avoid copying
-        {  
-          double eucludean_dis = sqrt(pow(i-pt[0], 2)+pow(j-pt[1], 2));
-          if (eucludean_dis < nearest_dis)
+        double nearest_dis = 2*search_margin;
+        for (int k = min_y; k <= max_y; k++)
+        {
+          for (int l = min_x; l <= max_x; l++)
           {
-            index[0] = pt[0];
-            index[1] = pt[1];
-            nearest_dis = eucludean_dis;
+            if (mat_status.at<char>(k, l) == 1)
+            {
+              double dis = sqrt(pow(k-i, 2) + pow(l-j, 2));
+              if (dis < nearest_dis)
+              {
+                nearest_dis = dis;
+                index[0] = k;
+                index[1] = l;
+              }
+            }
           }
         }
-        dst_img.at<char>(i, j) =  dst_img.at<char>(index[0], index[1]);
+        dst_img.at<char>(i, j) = dst_img.at<char>(index[0], index[1]);
       }
     }
   }
