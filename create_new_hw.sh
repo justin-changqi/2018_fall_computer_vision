@@ -8,12 +8,13 @@ cd $_project_name
 mkdir -p build
 mkdir -p images
 mkdir -p include
-mkdir -p report
+mkdir -p report/img_src
 mkdir -p result_img
 mkdir -p src
 rm CMakeLists.txt
 touch CMakeLists.txt
 cp report_temp.tex report/$_report_name
+cp latex.gitignore report/.gitignore 
 echo "cmake_minimum_required(VERSION 2.8)" >> CMakeLists.txt
 echo "add_compile_options(-std=c++11)" >> CMakeLists.txt
 echo "project( "$_project_name" )" >> CMakeLists.txt
