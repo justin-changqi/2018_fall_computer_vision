@@ -233,6 +233,12 @@ void bilinearInterpolation(cv::Mat &src_img, cv::Mat &dst_img)
   }
 }
 
+void saveImage(cv::Mat &img, std::string prefix)
+{
+  std::string save_file = SAVE_IMG_FOLDER + prefix + ".png";
+  cv::imwrite(save_file, img);
+}
+
 int main(int argc, char **argv)
 {
   cv::Mat lena_256_src(256, 256, CV_8UC1);
@@ -252,11 +258,17 @@ int main(int argc, char **argv)
   bilinearInterpolation(lena_256_src, bilinear_interpolation);
   showImage("lena 256 src", lena_256_src);
   showImage("lena row-col replication", row_col_rep);
-  showImage("lena row-col delection", row_col_del);
+  showImage("lena row-col deletion", row_col_del);
   showImage("lena blur", lena_256_blur);
-  showImage("lena blur delection", row_col_blur_del);
+  showImage("lena blur deletion", row_col_blur_del);
   showImage("lena nearest neighboring", nearest_neighboring);
   showImage("lena bilinear interpolation", bilinear_interpolation);
+  saveImage(row_col_rep, "2-a zooming lena row-col replication");
+  saveImage(row_col_del, "2-b-1 shrinking lena row-col deletion");
+  saveImage(lena_256_blur, "2-b-2 lena 256 blur");
+  saveImage(row_col_blur_del, "2-b-3 lena 256 blur row-col deletion");
+  saveImage(nearest_neighboring, "2-c-1 zooming lena nearest neighboring");
+  saveImage(bilinear_interpolation, "2-c-2 zooming lena bilinear interpolation");
   cv::waitKey(0);
   return 0;
 }
