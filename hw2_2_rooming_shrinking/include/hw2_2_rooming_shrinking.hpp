@@ -8,3 +8,4 @@ void rowColReplication(cv::Mat &src_img, cv::Mat &dst_img);
 void rowColDeletion(cv::Mat &src_img, cv::Mat &dst_img);
 void gaussionBlur(cv::Mat &src_img, cv::Mat &dst_img, int kernel_size);
 void nearestNeighboring(cv::Mat &src_img, cv::Mat &dst_img);
+void bilinearInterpolation(cv::Mat &src_img, cv::Mat &dst_img);
