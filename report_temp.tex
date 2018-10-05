@@ -1,0 +1,51 @@
+\documentclass[a4paper, 11pt]{article}
+    \usepackage{comment} % enables the use of multi-line comments (\ifx \fi) 
+    \usepackage{lipsum} %This package just generates Lorem Ipsum filler text. 
+    \usepackage{fullpage} % changes the margin
+    \usepackage{CJKutf8}
+    \usepackage{enumitem}
+    \usepackage{titlesec}
+    \usepackage[english]{babel}
+    \usepackage{blindtext}
+    \usepackage{graphicx}     % for figure
+    \usepackage{subcaption}   % for figure
+    \usepackage[export]{adjustbox}
+    \usepackage[most]{tcolorbox}
+    \usepackage{xcolor}
+\renewcommand{\theenumi}{\alph{enumi}}
+
+\titlespacing*{\section}
+  {0pt}{0.5\baselineskip}{1\baselineskip}
+
+\titlespacing*{\subsection}
+  {0pt}{0.1\baselineskip}{0.1\baselineskip}
+
+\begin{document}
+%Header-Make sure you update this information!!!!
+\noindent
+\begin{center}
+  \large\textbf{2018 Fall Advance Digital Image Processing Homework \#2-1} \\
+\end{center}
+\begin{CJK}{UTF8}{bsmi}
+\normalsize EE 245765 \hfill \textbf{106368002 張昌祺 Justin, Chang-Qi Zhang} \\
+Advisor: 電子所 高立人 \hfill justin840727@gmail.com \\
+\null\hfill Due Date: 13:00pm, Oct 2 2018 \\
+\end{CJK}
+
+\section*{Problem 1}
+\begin{enumerate}[label=\alph*.]
+  \item 
+    \blindtext[1]
+    \subsection*{Ans}
+    \blindtext[1]
+\end{enumerate}
+
+\begin{thebibliography}{9}
+  \bibitem{MSE-wiki} Wikipedia. \emph{Mean squared error}[online]. \\
+  Available from World Wide Web: (https://en.wikipedia.org/wiki/Mean\_squared\_error).
+  \bibitem{PSNR-wiki} Wikipedia. \emph{Peak signal-to-noise ratio}[online].\\
+  Available from World Wide Web: \\
+  (https://en.wikipedia.org/wiki/Peak\_signal-to-noise\_ratio).
+\end{thebibliography}
+
+\end{document}
