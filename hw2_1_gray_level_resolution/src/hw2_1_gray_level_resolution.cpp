@@ -61,7 +61,9 @@ double getMSE(cv::Mat &src, cv::Mat &target)
   {
     for (int j = 0; j < src.cols; j++)
     {
-      mse += pow(src.at<char>(i, j) - target.at<char>(i, j), 2);
+      unsigned char src_value = src.at<char>(i, j);
+      unsigned char target_value = target.at<char>(i, j);
+      mse += pow(src_value - target_value, 2);
     }
   }
   return mse/(src.rows * src.cols);
