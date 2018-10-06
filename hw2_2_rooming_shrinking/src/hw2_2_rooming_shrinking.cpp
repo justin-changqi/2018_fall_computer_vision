@@ -239,30 +239,67 @@ void saveImage(cv::Mat &img, std::string prefix)
   cv::imwrite(save_file, img);
 }
 
+double getMSE(cv::Mat &src, cv::Mat &target)
+{
+  double mse = 0;
+  for (int i = 0; i < src.rows; i++)
+  {
+    for (int j = 0; j < src.cols; j++)
+    {
+      unsigned char src_value = src.at<char>(i, j);
+      unsigned char target_value = target.at<char>(i, j);
+      mse += pow(src_value - target_value, 2);
+    }
+  }
+  return mse/(src.rows * src.cols);
+}
+
+double getPSNR(double mse, int num_bits)
+{
+  char max_i = 0xff >> (8 - num_bits);
+  return 10 * log10(pow(max_i, 2) / mse);
+}
+
 int main(int argc, char **argv)
 {
   cv::Mat lena_256_src(256, 256, CV_8UC1);
   loadRawFile(lena_256_src, "../images/lena_256.raw", 256, 256);
+
+  // HW2.a
   cv::Mat row_col_rep(512, 512, CV_8UC1);
   rowColReplication(lena_256_src, row_col_rep);
+  cv::Mat lena_512_src(512, 512, CV_8UC1);
+  loadRawFile(lena_512_src, "../images/lena_512.raw", 512, 512);
+  double mse = getMSE(lena_512_src, row_col_rep);
+  double psnr = getPSNR(mse, 8);
+  std::cout << "Hw2.2.a" << std::endl;
+  std::cout << "MSE: " << mse << ", PSNR: " << psnr << std::endl;
+  // HW2.b
   cv::Mat row_col_del(128, 128, CV_8UC1);
   rowColDeletion(lena_256_src, row_col_del);
   cv::Mat lena_256_blur(256, 256, CV_8UC1);
   gaussionBlur(lena_256_src, lena_256_blur, 10);
   cv::Mat row_col_blur_del(128, 128, CV_8UC1);
   rowColDeletion(lena_256_blur, row_col_blur_del);
+  // HW2.c
   double zooming_ratio = 2.3;
   cv::Mat nearest_neighboring(256*zooming_ratio, 256*zooming_ratio, CV_8UC1, cv::Scalar(0));
   nearestNeighboring(lena_256_src, nearest_neighboring);
   cv::Mat bilinear_interpolation(256*zooming_ratio, 256*zooming_ratio, CV_8UC1, cv::Scalar(0));
   bilinearInterpolation(lena_256_src, bilinear_interpolation);
+
+  // Show results
   showImage("lena 256 src", lena_256_src);
+  showImage("lena 512 src", lena_512_src);
   showImage("lena row-col replication", row_col_rep);
   showImage("lena row-col deletion", row_col_del);
   showImage("lena blur", lena_256_blur);
   showImage("lena blur deletion", row_col_blur_del);
   showImage("lena nearest neighboring", nearest_neighboring);
   showImage("lena bilinear interpolation", bilinear_interpolation);
+
+  // Save results
+  saveImage(lena_512_src, "lena_512");
   saveImage(row_col_rep, "2-a zooming lena row-col replication");
   saveImage(row_col_del, "2-b-1 shrinking lena row-col deletion");
   saveImage(lena_256_blur, "2-b-2 lena 256 blur");

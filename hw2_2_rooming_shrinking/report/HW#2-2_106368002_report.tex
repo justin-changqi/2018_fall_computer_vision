@@ -1,0 +1,91 @@
+\documentclass[a4paper, 11pt]{article}
+    \usepackage{comment} % enables the use of multi-line comments (\ifx \fi) 
+    \usepackage{lipsum} %This package just generates Lorem Ipsum filler text. 
+    \usepackage{fullpage} % changes the margin
+    \usepackage{CJKutf8}
+    \usepackage{enumitem}
+    \usepackage{titlesec}
+    \usepackage[english]{babel}
+    \usepackage{blindtext}
+    \usepackage{graphicx}     % for figure
+    \usepackage{subcaption}   % for figure
+    \usepackage[export]{adjustbox}
+    \usepackage[most]{tcolorbox}
+    \usepackage{xcolor}
+\renewcommand{\theenumi}{\alph{enumi}}
+
+\titlespacing*{\section}
+  {0pt}{0.5\baselineskip}{1\baselineskip}
+
+\titlespacing*{\subsection}
+  {0pt}{0.1\baselineskip}{0.1\baselineskip}
+
+\begin{document}
+%Header-Make sure you update this information!!!!
+\noindent
+\begin{center}
+  \large\textbf{2018 Fall Advance Digital Image Processing Homework \#2-2} \\
+\end{center}
+\begin{CJK}{UTF8}{bsmi}
+\normalsize EE 245765 \hfill \textbf{106368002 張昌祺 Justin, Chang-Qi Zhang} \\
+Advisor: 電子所 高立人 \hfill justin840727@gmail.com \\
+\null\hfill Due Date: 13:00pm, Oct 9 2018 \\
+\end{CJK}
+
+\section*{Problem 2 Zooming and Shrinking (C/C++)}
+\begin{enumerate}[label=\alph*.]
+  \item 
+    Zooming the image with ratio 2:1 raw-column replication. Compare the output with
+    lena512.raw. (Figure, 10\%; Discussion, 5\%)
+    \subsection*{Ans}
+    In Figure~\ref{fig:row-col-replication}, it is very clear to describe how
+    row-col-replication works to achieve rooming image. Scale step, we multiply row index an 
+    column index with scale factor (2 in this case). Row and column replication are simply 
+    duplicate the row $i$ and column $j$ to row $i+1$ and column $j+1$.
+
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=.9\textwidth]{{"img_src/row-col replication"}.png}
+      \caption{Concept of row-col replication.}
+      \label{fig:row-col-replication}
+    \end{figure}
+    Figure two shows the row-col replication result on .
+
+    \begin{figure}[h]
+      \centering      
+      \begin{subfigure}[b]{0.3\linewidth}
+        \includegraphics[width=\textwidth]{{"../result_img/2-a zooming lena row-col replication"}.png}
+        \caption{Concept of row-col replication.}
+      \end{subfigure}
+      \hspace{5em}
+      \begin{subfigure}[b]{0.3\linewidth}
+        \includegraphics[width=\textwidth]{{"../result_img/2-a zooming lena row-col replication"}.png}
+        \caption{Concept of row-col replication.}
+      \end{subfigure}
+      \label{fig:row-col-replication-Lena}
+    \end{figure}
+  \item 
+    Shrinking the image with ratio 1:2 raw-column deletion. Check your result with or without
+    blurring (using Xnview) your input image before shrinking. (Figure, 10\%; Discussion, 5\%)
+    \subsection*{Ans}
+  \item 
+    Zooming the image with ratio 2.3 using both nearest-neighboring and bilinear interpolation.
+    Discuss the difference in the output images. (Figure, 10\%; Discussion, 5\%)
+    \subsection*{Ans}
+\end{enumerate}
+
+\section*{Problem 3 Isopreference test (C/C++)}
+  Experiment the isopreference test on lena\_256.raw and baboon\_256.raw images with your
+  programs developed in Problems 1 \& 2. Do your experiments and observations match the textbook
+  description? Discuss it. (Discussion, 20\%)
+  \subsection*{Ans}
+
+\begin{thebibliography}{9}
+  \bibitem{MSE-wiki} Wikipedia. \emph{Mean squared error}[online]. \\
+  Available from World Wide Web: (https://en.wikipedia.org/wiki/Mean\_squared\_error).
+  \bibitem{PSNR-wiki} Wikipedia. \emph{Peak signal-to-noise ratio}[online].\\
+  Available from World Wide Web: \\
+  (https://en.wikipedia.org/wiki/Peak\_signal-to-noise\_ratio).
+\end{thebibliography}
+
+\end{document}

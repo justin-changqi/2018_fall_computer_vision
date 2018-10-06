@@ -12,3 +12,5 @@ void gaussionBlur(cv::Mat &src_img, cv::Mat &dst_img, int kernel_size);
 void nearestNeighboring(cv::Mat &src_img, cv::Mat &dst_img);
 void bilinearInterpolation(cv::Mat &src_img, cv::Mat &dst_img);
 void saveImage(cv::Mat &img, std::string prefix);
+double getMSE(cv::Mat &src, cv::Mat &target);
+double getPSNR(double mse, int num_bits);
