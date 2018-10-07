@@ -273,7 +273,7 @@ int main(int argc, char **argv)
   double mse = getMSE(lena_512_src, row_col_rep);
   double psnr = getPSNR(mse, 8);
   std::cout << "Hw2.2.a" << std::endl;
-  std::cout << "MSE: " << mse << ", PSNR: " << psnr << std::endl;
+  std::cout << "MSE: " << mse << ", PSNR: " << psnr << " db" << std::endl;
   // HW2.b
   cv::Mat row_col_del(128, 128, CV_8UC1);
   rowColDeletion(lena_256_src, row_col_del);

@@ -49,20 +49,33 @@ Advisor: 電子所 高立人 \hfill justin840727@gmail.com \\
       \caption{Concept of row-col replication.}
       \label{fig:row-col-replication}
     \end{figure}
-    Figure two shows the row-col replication result on .
-
+    Figure~\ref{fig:row-col-replication-Lena} shows the original Lena 512
+    image(result\_img/lena\_512.png) and the result(result\_img/2-a zooming 
+    lena row-col replication.png) of row-col replication from Lena 256 image. 
+    Then you can see there is check broad effect on row-col replication result.
     \begin{figure}[h]
       \centering      
-      \begin{subfigure}[b]{0.3\linewidth}
-        \includegraphics[width=\textwidth]{{"../result_img/2-a zooming lena row-col replication"}.png}
-        \caption{Concept of row-col replication.}
+      \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\textwidth]{{"../result_img/lena_512"}.png}
+        \caption{Lena 512 original.}
       \end{subfigure}
       \hspace{5em}
-      \begin{subfigure}[b]{0.3\linewidth}
+      \begin{subfigure}[b]{0.4\linewidth}
         \includegraphics[width=\textwidth]{{"../result_img/2-a zooming lena row-col replication"}.png}
-        \caption{Concept of row-col replication.}
+        \caption{Row-col replication from Lena 256.}
       \end{subfigure}
+      \caption{Lena 512 and Lena 256 Row-col replication.}
       \label{fig:row-col-replication-Lena}
+    \end{figure}
+    \newpage
+    I calculated MSE and PSNR between Lena 512 and col-row replication. The running result
+    as Figure~\ref{fig:row-col-replication-mse-psnr}. The data is loss a lot here.
+    The typical PSNR value for video compression are between 30 to 50 dB. 
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=.5\textwidth]{{"img_src/2-a-mse-psnr"}.png}
+      \caption{MSE and PSNR result.}
+      \label{fig:row-col-replication-mse-psnr}
     \end{figure}
   \item 
     Shrinking the image with ratio 1:2 raw-column deletion. Check your result with or without
