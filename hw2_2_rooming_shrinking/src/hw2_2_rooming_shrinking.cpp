@@ -96,7 +96,7 @@ void nearestNeighboring(cv::Mat &src_img, cv::Mat &dst_img)
       }
     }
   }
-  // find nearest point and fill in dara to images
+  // find nearest point and fill in data to images
   int search_margin = scale + 1;
   for (int i = 0; i < mat_status.rows; i++)
   {
