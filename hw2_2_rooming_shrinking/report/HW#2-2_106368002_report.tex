@@ -12,7 +12,34 @@
     \usepackage[export]{adjustbox}
     \usepackage[most]{tcolorbox}
     \usepackage{xcolor}
+    \usepackage{listings} % show code
 \renewcommand{\theenumi}{\alph{enumi}}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
 
 \titlespacing*{\section}
   {0pt}{0.5\baselineskip}{1\baselineskip}
@@ -52,9 +79,9 @@ Advisor: 電子所 高立人 \hfill justin840727@gmail.com \\
     Figure~\ref{fig:row-col-replication-Lena} shows the original Lena 512
     image(result\_img/lena\_512.png) and the result(result\_img/2-a zooming 
     lena row-col replication.png) of row-col replication from Lena 256 image. 
-    Then you can see there is check broad effect on row-col replication result.
+    Then you can see there is checkerboard effect on row-col replication result.
     \begin{figure}[h]
-      \centering      
+      \centering
       \begin{subfigure}[b]{0.4\linewidth}
         \includegraphics[width=\textwidth]{{"../result_img/lena_512"}.png}
         \caption{Lena 512 original.}
@@ -81,18 +108,77 @@ Advisor: 電子所 高立人 \hfill justin840727@gmail.com \\
     Shrinking the image with ratio 1:2 raw-column deletion. Check your result with or without
     blurring (using Xnview) your input image before shrinking. (Figure, 10\%; Discussion, 5\%)
     \subsection*{Ans}
+    Raw-column deletion is a simple method to shrinking image. The difference between 
+    Figure~\ref{fig:row-col-deletion-Lena} and Figure~\ref{fig:row-col-deletion-blur-Lena}
+    is that Figure~\ref{fig:row-col-deletion-Lena} direct compute rosw-col deletion and 
+    Figure~\ref{fig:row-col-deletion-blur-Lena} use gaussian blur first then compute ros-col deletion.
+    Row-col deletion is a sampling method so it is very easy to get the aliasing effect, if the input image
+    is a high detail image. For solving aliasing effect we can make the image blur before we apply row-col
+    deletion.
+    \begin{figure}[h]
+      \centering
+      \begin{subfigure}[b]{0.3\linewidth}
+        \includegraphics[width=\textwidth]{{"../result_img/lena_512"}.png}
+        \caption{Lena 256 original.}
+      \end{subfigure}
+      \hspace{5em}
+      \begin{subfigure}[b]{0.15\linewidth}
+        \includegraphics[width=\textwidth]{{"../result_img/2-b-1 shrinking lena row-col deletion"}.png}
+        \caption{Row-col deletion from Lena 256.}
+      \end{subfigure}
+      \caption{Results of Lena 256 Row-col deletion.}
+      \label{fig:row-col-deletion-Lena}
+    \end{figure}
+    % \newpage
+    \begin{figure}[h]
+      \centering      
+      \begin{subfigure}[b]{0.3\linewidth}
+        \includegraphics[width=\textwidth]{{"../result_img/2-b-2 lena 256 blur"}.png}
+        \caption{Lena 256 gaussian blur.}
+      \end{subfigure}
+      \hspace{5em}
+      \begin{subfigure}[b]{0.15\linewidth}
+        \includegraphics[width=\textwidth]{{"../result_img/2-b-3 lena 256 blur row-col deletion"}.png}
+        \caption{Row-col deletion from Lena 256 gaussian blur.}
+      \end{subfigure}
+      \caption{Results of Lena 256 gaussian blur Row-col deletion.}
+      \label{fig:row-col-deletion-blur-Lena}
+    \end{figure}
+    \newpage
   \item 
     Zooming the image with ratio 2.3 using both nearest-neighboring and bilinear interpolation.
     Discuss the difference in the output images. (Figure, 10\%; Discussion, 5\%)
     \subsection*{Ans}
+    On results of those two method, we can see in result of \textit{nearest neighboring} got
+    obvious checkerboard effect but it does not happen on  result of 
+    \textit{bilinear interpolation}.
+    \begin{figure}[h]
+      \centering
+      \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\textwidth]{{"../result_img/2-c-1 zooming lena nearest neighboring"}.png}
+        \caption{Zooming with nearest-neighboring}
+      \end{subfigure}
+      \hspace{1em}
+      \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\textwidth]{{"../result_img/2-c-2 zooming lena bilinear interpolation"}.png}
+        \caption{Zooming with bilinear interpolation}
+      \end{subfigure}
+      \caption{Zooming results for \textit{nearest-neighboring} and \textit{bilinear interpolation}}
+      \label{fig:row-col-rooming-high-Lena}
+    \end{figure}
 \end{enumerate}
+\subsection*{Source code for Problem 2}
+\textit{hw2\_2\_rooming\_shrinking.hpp}
+\lstinputlisting[language=C++]{../include/hw2_2_rooming_shrinking.hpp}
+\textit{hw2\_2\_rooming\_shrinking.cpp}
+\lstinputlisting[language=C++]{../src/hw2_2_rooming_shrinking.cpp}
 
 \section*{Problem 3 Isopreference test (C/C++)}
   Experiment the isopreference test on lena\_256.raw and baboon\_256.raw images with your
   programs developed in Problems 1 \& 2. Do your experiments and observations match the textbook
   description? Discuss it. (Discussion, 20\%)
   \subsection*{Ans}
-
+  
 \begin{thebibliography}{9}
   \bibitem{MSE-wiki} Wikipedia. \emph{Mean squared error}[online]. \\
   Available from World Wide Web: (https://en.wikipedia.org/wiki/Mean\_squared\_error).
