@@ -263,8 +263,14 @@ double getPSNR(double mse, int num_bits)
 int main(int argc, char **argv)
 {
   cv::Mat lena_256_src(256, 256, CV_8UC1);
-  loadRawFile(lena_256_src, "../images/lena_256.raw", 256, 256);
-
+  if (argc > 1)
+  {
+    cv::imread(argv[1], CV_LOAD_IMAGE_COLOR).copyTo(lena_256_src);
+  }
+  else
+  {
+    loadRawFile(lena_256_src, "../images/lena_256.raw", 256, 256);
+  }
   // HW2.a
   cv::Mat row_col_rep(512, 512, CV_8UC1);
   rowColReplication(lena_256_src, row_col_rep);
