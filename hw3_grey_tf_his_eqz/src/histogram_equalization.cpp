@@ -1,8 +1,6 @@
 #include "histogram_equalization.hpp"
-#include "histogram_equalization.hpp"
-#include "histogram_equalization.hpp"
-#include "histogram_equalization.hpp"
-#include "histogram_equalization.hpp"
-#include "histogram_equalization.hpp"
-#include "histogram_equalization.hpp"
-#include "histogram_equalization.hpp"
+
+int main(int argc, char **argv)
+{
+  return 0;
+}
