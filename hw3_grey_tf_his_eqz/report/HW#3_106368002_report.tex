@@ -66,7 +66,36 @@
 }%
 \item[]}{\end{list}}
 
-\titlespacing*{\section} {-7pt}{2.5ex plus 1ex minus .2ex}{1.3ex plus .2ex}
+\titlespacing*{\section}
+{0pt}{0.5\baselineskip}{1\baselineskip}
+
+\titlespacing*{\subsection}
+{0pt}{0.1\baselineskip}{0.1\baselineskip}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
 
 \begin{document}
 
@@ -76,29 +105,29 @@
 
 \begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
 	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
-					
+						
 	\center % Centre everything on the page
-					
+						
 	%------------------------------------------------
 	%	Headings
 	%------------------------------------------------
-					
+						
 	\textsc{\LARGE National Taipei University of Technology}\\[1.5cm] % Main heading such as the name of your university/college
-					
+						
 	\textsc{\Large 2018 Fall}\\[0.5cm] % Major heading such as course name
-					
+						
 	\textsc{\large 245765 - Advanced Digital Image Processing}\\[0.5cm] % Minor heading such as course title
-					
+						
 	%------------------------------------------------
 	%	Title
 	%------------------------------------------------
-					
+						
 	\HRule\\[0.4cm]
-					
+						
 	{\huge\bfseries HW\#3 Grey Level Transformation \& Histogram Equalization}\\[0.4cm] % Title of your document
-					
+						
 	\HRule\\[1.5cm]
-					
+						
 	%------------------------------------------------
 	%	Author(s)
 	%------------------------------------------------
@@ -125,68 +154,247 @@
 	% If you don't want a supervisor, uncomment the two lines below and comment the code above
 	%{\large\textit{Author}}\\
 	%John \textsc{Smith} % Your name
-					
+						
 	%------------------------------------------------
 	%	Date
 	%------------------------------------------------
-					
+						
 	\vfill\vfill\vfill % Position the date 3/4 down the remaining page
-					
+						
 	{\large\today} % Date, change the \today to a set date if you want to be precise
-					
+						
 	%------------------------------------------------
 	%	Logo
 	%------------------------------------------------
-					
+						
 	\vfill
 	\includegraphics[width=0.6\textwidth]{../../logo.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
-						
+								
 		%----------------------------------------------------------------------------------------
-									
+											
 		% \vfill % Push the date up 1/4 of the remaining page
-									
+
 	\end{titlepage}
 	\begin{reportsection}{-1cm}{-1cm}
 		%----------------------------------------------------------------------------------------
-		\section*{Problem 1}
+		\section*{Problem 1~Grey Level Transformation (C/C++) (40\%)}
 		\begin{enumerate}[label=\alph*.]
 			\item 
-			      \begin{tikzpicture}
-			      	% \includegraphics[width=\textwidth,height=4cm]{tiger}
-			      	\begin{axis} [title={Power-Law Transformation},
-			      			xlabel = {$x$},
-			      			ylabel = {$y$},
-			      			xmin = 0, 
-			      			xmax = 255,
-			      			ymin = 0, 
-			      			ymax = 255,
-			      		minor y tick num = 1]
-                \addplot table [x=x, y=y0, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
-                \addplot table [x=x, y=y1, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
-                \addplot table [x=x, y=y2, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
-                \addplot table [x=x, y=y3, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
-                \addplot table [x=x, y=y4, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
-                \addplot table [x=x, y=y5, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
-                \addplot table [x=x, y=y6, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
-                \addplot table [x=x, y=y7, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
-                \addplot table [x=x, y=y8, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
-                \addplot table [x=x, y=y9, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
-                \addplot table [x=x, y=y10, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
-			      	\end{axis}
-			      \end{tikzpicture}
-			      \blindtext[1]
-			      \subsection*{Ans}
-			      \blindtext[1]
-		\end{enumerate}
-								
-		\begin{thebibliography}{9}
-			\bibitem{MSE-wiki} Wikipedia. \emph{Mean squared error}[online]. \\
-			Available from World Wide Web: (https://en.wikipedia.org/wiki/Mean\_squared\_error).
-			\bibitem{PSNR-wiki} Wikipedia. \emph{Peak signal-to-noise ratio}[online].\\
-			Available from World Wide Web: \\
-			(https://en.wikipedia.org/wiki/Peak\_signal-to-noise\_ratio).
-		\end{thebibliography}
-								
+      Enhance the image cat\_bright.raw and cat\_dark.raw by Power-Law and Piecewise-Linear 
+      transformation that learned in class. Show the best parameters, the gray-level 
+      transform curve and output images. (Figure, 20\%; Discussion, 10\%)
+        % \begin{tikzpicture}
+        %   % \includegraphics[width=\textwidth,height=4cm]{tiger}
+        %   \begin{axis} [title={Power-Law Transformation},
+        %       xlabel = {$x$},
+        %       ylabel = {$y$},
+        %       xmin = 0, 
+        %       xmax = 255,
+        %       ymin = 0, 
+        %       ymax = 255,
+        %     minor y tick num = 1]
+        %     \addplot table [x=x, y=y0, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
+        %     \addplot table [x=x, y=y1, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
+        %     \addplot table [x=x, y=y2, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
+        %     \addplot table [x=x, y=y3, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
+        %     \addplot table [x=x, y=y4, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
+        %     \addplot table [x=x, y=y5, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
+        %     \addplot table [x=x, y=y6, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
+        %     \addplot table [x=x, y=y7, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
+        %     \addplot table [x=x, y=y8, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
+        %     \addplot table [x=x, y=y9, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
+        %     \addplot table [x=x, y=y10, col sep=comma, mark=none, smooth] {../result_plot_data/Power-Law.csv};
+        %   \end{axis}
+        % \end{tikzpicture}
+    \subsection*{Ans}
+		\textbf{Piecewise-Linear transformation}
+    \begin{figure}[h]
+      \centering
+        \includegraphics[width=\textwidth]{{"./img_src/power_law"}.png}
+      \caption{Power-Law Transformation in different Gamma.}
+      \label{fig:power-law-curve}
+    \end{figure}
+    \newpage
+		\begin{figure}[htbp]
+			\centering
+			\begin{subfigure}[b!]{0.43\linewidth}
+			  \includegraphics[width=\textwidth]{{"../result_img/problem1/cat_bright_src"}.png}
+			  \caption{Cat bright image source.}
+			\end{subfigure}
+			\hspace{1em}
+			\begin{subfigure}[b!]{0.43\linewidth}
+			  \includegraphics[width=\textwidth]{{"../result_img/problem1/power_law/cat_bright10.0"}.png} 
+			  \caption{Power-Law Transformation.}
+			\end{subfigure}
+			\caption{Power-Law Transformation bright image with best \textbf{Gamma 10.0}.}
+			\label{fig:power-law-curve}
+    \end{figure}
+
+    \begin{figure}[htbp]
+			\centering
+			\begin{subfigure}[b!]{0.43\linewidth}
+			  \includegraphics[width=\textwidth]{{"../result_img/problem1/cat_dark_src"}.png}
+			  \caption{Cat dark image source.}
+			\end{subfigure}
+			\hspace{1em}
+			\begin{subfigure}[b!]{0.43\linewidth}
+			  \includegraphics[width=\textwidth]{{"../result_img/problem1/power_law/cat_dark0.20"}.png} 
+			  \caption{Power-Law Transformation.}
+			\end{subfigure}
+			\caption{Power-Law Transformation bright image with best \textbf{Gamma 0.20}.}
+      \label{fig:row-col-replication-Lena}
+    \end{figure}
+    
+    \newpage
+    \textbf{Piecewise-Linear transformation}
+
+    \begin{figure}[htbp]
+      \centering
+        \includegraphics[width=0.8\textwidth]{{"./img_src/PieceLinBright"}.png}
+      \caption{Power-Law Transformation in different Gamma.}
+      \label{fig:piec-b-curve}
+    \end{figure}
+
+    \begin{figure}[htbp]
+			\centering
+			\begin{subfigure}[b!]{0.43\linewidth}
+			  \includegraphics[width=\textwidth]{{"../result_img/problem1/cat_bright_src"}.png}
+			  \caption{Cat bright image source.}
+			\end{subfigure}
+			\hspace{1em}
+			\begin{subfigure}[b!]{0.43\linewidth}
+			  \includegraphics[width=\textwidth]{{"../result_img/problem1/cat_bright_plt"}.png} 
+			  \caption{Transformed image.}
+			\end{subfigure}
+      \caption{Piecewise-Linear transformation bright image with \textbf
+      {Figure~\ref{fig:piec-b-curve} curve}.}
+      \label{fig:row-col-replication-Lena}
+    \end{figure}
+
+    \begin{figure}[htbp]
+      \centering
+        \includegraphics[width=0.8\textwidth]{{"./img_src/PieceLinDark"}.png}
+      \caption{Power-Law Transformation in different Gamma.}
+      \label{fig:piec-d-curve}
+    \end{figure}
+    \newpage
+    \begin{figure}[htbp]
+			\centering
+			\begin{subfigure}[b!]{0.43\linewidth}
+			  \includegraphics[width=\textwidth]{{"../result_img/problem1/cat_dark_src"}.png}
+			  \caption{Cat dark image source.}
+			\end{subfigure}
+			\hspace{1em}
+			\begin{subfigure}[b!]{0.43\linewidth}
+			  \includegraphics[width=\textwidth]{{"../result_img/problem1/cat_dark_plt"}.png} 
+			  \caption{Transformed image.}
+			\end{subfigure}
+      \caption{Piecewise-Linear transformation dark image with \textbf
+      {Figure~\ref{fig:piec-d-curve} curve}.}
+      \label{fig:row-col-replication-Lena}
+    \end{figure}
+
+    \item 
+    Compare and discuss the results obtained by the two methods and explain the 
+    difference.( Discussion, 10\%)
+    \subsection*{Ans}
+    \end{enumerate}
+    \subsection*{Source code for Problem 1}
+    \textit{grey\_level\_transformation.hpp}
+    \lstinputlisting[language=C++]{../include/grey_level_transformation.hpp}
+    \textit{grey\_level\_transformation.cpp}
+    \lstinputlisting[language=C++]{../src/grey_level_transformation.cpp}
+    \newpage
+
+    \section*{Problem 2~Histogram Equalization (C/C++) (60\%)}
+    \begin{enumerate}[label=\alph*.]
+			\item 
+        Plot the histogram of livingroom\_bright.raw and livingroom\_dark.raw. 
+        Discuss the difference among these histograms. (Figure, 10\%; Discussion, 10\%)
+        \subsection*{Ans}
+        \begin{figure}[htbp]
+          \centering
+          \begin{subfigure}[b!]{0.46\linewidth}
+            \includegraphics[width=\textwidth]{{"./img_src/livingroom_bright_his"}.png}
+            \caption{Living room bright.}
+          \end{subfigure}
+          \hspace{1em}
+          \begin{subfigure}[b!]{0.46\linewidth}
+            \includegraphics[width=\textwidth]{{"./img_src/livingroom_dark_his"}.png} 
+            \caption{Living room dark.}
+          \end{subfigure}
+          \caption{Histofram of living room image}
+          \label{fig:row-col-replication-Lena}
+        \end{figure}
+      \item  
+        Perform histogram equalization on livingroom\_bright.raw and livingroom\_dark.raw. 
+        Plot their histograms after equalization and compare the results, will the result
+        be the same and why? (Figure, 10\%; Discussion, 10\%)
+        \subsection*{Ans}
+        \begin{figure}[htbp]
+          \centering
+          \begin{subfigure}[b!]{0.46\linewidth}
+            \includegraphics[width=\textwidth]{{"./img_src/livingroom_bright_his_eq"}.png}
+            \caption{Living room bright.}
+          \end{subfigure}
+          \hspace{1em}
+          \begin{subfigure}[b!]{0.46\linewidth}
+            \includegraphics[width=\textwidth]{{"./img_src/livingroom_dark_his_eq"}.png} 
+            \caption{Living room dark.}
+          \end{subfigure}
+          \caption{Histofram of living room image}
+          \label{fig:row-col-replication-Lena}
+        \end{figure}
+      \newpage
+      \item  
+        If you perform histogram equalization on cat\_bright.raw and cat\_dark.raw, 
+        will the result look good? Show the output images and explain what causes this 
+        situation and how to improve it. (Figure, 10\%, Discussion, 10\%)
+        \subsection*{Ans}
+        \begin{figure}[htbp]
+          \centering
+          \begin{subfigure}[b!]{0.4\linewidth}
+            \includegraphics[width=\textwidth]{{"../result_img/problem2/livingroom_bright_src"}.png}
+            \caption{Cat dark image source.}
+          \end{subfigure}
+          \hspace{1em}
+          \begin{subfigure}[b!]{0.4\linewidth}
+            \includegraphics[width=\textwidth]{{"../result_img/problem2/livingroom_eq_bright_src"}.png} 
+            \caption{Transformed image.}
+          \end{subfigure}
+          \caption{Piecewise-Linear}
+          \label{fig:row-col-replication-Lena}
+        \end{figure}
+
+        \begin{figure}[htbp]
+          \centering
+          \begin{subfigure}[b!]{0.4\linewidth}
+            \includegraphics[width=\textwidth]{{"../result_img/problem2/livingroom_dark_src"}.png}
+            \caption{Cat dark image source.}
+          \end{subfigure}
+          \hspace{1em}
+          \begin{subfigure}[b!]{0.4\linewidth}
+            \includegraphics[width=\textwidth]{{"../result_img/problem2/livingroom_eq_dark_src"}.png} 
+            \caption{Transformed image.}
+          \end{subfigure}
+          \caption{Piecewise-Linear}
+          \label{fig:row-col-replication-Lena}
+        \end{figure}
+
+    \end{enumerate}
+    \subsection*{Source code for Problem 1}
+    \textit{histogram\_equalization.hpp}
+    \lstinputlisting[language=C++]{../include/histogram_equalization.hpp}
+    \textit{histogram\_equalization.cpp}
+    \lstinputlisting[language=C++]{../src/histogram_equalization.cpp}
+	% 	\begin{thebibliography}{9}
+	% 		\bibitem{MSE-wiki} Wikipedia. \emph{Mean squared error}[online]. \\
+	% 		Available from World Wide Web: (https://en.wikipedia.org/wiki/Mean\_squared\_error).
+	% 		\bibitem{PSNR-wiki} Wikipedia. \emph{Peak signal-to-noise ratio}[online].\\
+	% 		Available from World Wide Web: \\
+	% 		(https://en.wikipedia.org/wiki/Peak\_signal-to-noise\_ratio).
+	% 	\end{thebibliography}
+										
 	\end{reportsection}
-				
+					
 \end{document}
