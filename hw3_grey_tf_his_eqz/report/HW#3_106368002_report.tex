@@ -207,7 +207,14 @@
         %   \end{axis}
         % \end{tikzpicture}
     \subsection*{Ans}
-		\textbf{Piecewise-Linear transformation}
+    The concept of \textbf{Piecewise-Linear transformation} is use pre-define Gamma function
+    to transform, Equation~(\ref{eqr:gamma-func}) the pixel value.
+    \begin{equation}
+      s_{r}=c \cdot r^{\gamma}
+      \label{eqr:gamma-func}
+    \end{equation}
+    Figure~\ref{fig:power-law-curve} shows the curves for difference Gamma value apply to 
+    Gamma function.
     \begin{figure}[h]
       \centering
         \includegraphics[width=\textwidth]{{"./img_src/power_law"}.png}
@@ -215,6 +222,8 @@
       \label{fig:power-law-curve}
     \end{figure}
     \newpage
+    The best gamma for cat\_bright.raw is \textbf{10.0}. According to  Figure~\ref{fig:power-law-curve}, 
+    the high pixel value apply Gamma=10 curve is more sensitive.
 		\begin{figure}[htbp]
 			\centering
 			\begin{subfigure}[b!]{0.43\linewidth}
@@ -227,9 +236,12 @@
 			  \caption{Power-Law Transformation.}
 			\end{subfigure}
 			\caption{Power-Law Transformation bright image with best \textbf{Gamma 10.0}.}
-			\label{fig:power-law-curve}
+			\label{fig:power-law-bright}
     \end{figure}
+    \vspace{3em}
 
+    The best gamma for cat\_dark.raw is \textbf{0.2}. For enhancing dark image the gamma value need to
+    < 1 to make it sensitive on low pixel value.  
     \begin{figure}[htbp]
 			\centering
 			\begin{subfigure}[b!]{0.43\linewidth}
@@ -242,11 +254,14 @@
 			  \caption{Power-Law Transformation.}
 			\end{subfigure}
 			\caption{Power-Law Transformation bright image with best \textbf{Gamma 0.20}.}
-      \label{fig:row-col-replication-Lena}
+      \label{fig:power-law-dark}
     \end{figure}
     
     \newpage
-    \textbf{Piecewise-Linear transformation}
+    In \textbf{Piecewise-Linear transformation} method, we define our linear curve by self, so in 
+    Figure~\ref{fig:piec-b-curve} I define a curve for scale high grey level pixel value for bright image. 
+    The enhance result of cat\_bright.raw shows on Figure~\ref{fig:piec-b}. The best values $(r_{1}, s_{1})=(20, 10)$ and 
+    $(r_{2}, s_{2})=(150,50)$.
 
     \begin{figure}[htbp]
       \centering
@@ -267,17 +282,18 @@
 			  \caption{Transformed image.}
 			\end{subfigure}
       \caption{Piecewise-Linear transformation bright image with \textbf
-      {Figure~\ref{fig:piec-b-curve} curve}.}
-      \label{fig:row-col-replication-Lena}
+              {Figure~\ref{fig:piec-b-curve} curve}.}
+      \label{fig:piec-b}
     \end{figure}
-
+    \newpage
+    Figure~\ref{fig:piec-d-curve}, I define a linear curve for scale low gray-level value. The best 
+    values $(r_{1}, s_{1})=(10, 150)$ and $(r_{2}, s_{2})=(50,200)$.
     \begin{figure}[htbp]
       \centering
         \includegraphics[width=0.8\textwidth]{{"./img_src/PieceLinDark"}.png}
       \caption{Power-Law Transformation in different Gamma.}
       \label{fig:piec-d-curve}
     \end{figure}
-    \newpage
     \begin{figure}[htbp]
 			\centering
 			\begin{subfigure}[b!]{0.43\linewidth}
@@ -298,7 +314,12 @@
     Compare and discuss the results obtained by the two methods and explain the 
     difference.( Discussion, 10\%)
     \subsection*{Ans}
+      The difference of Power-Low and Piecewise-Linear transformation is how we define the
+      function. Power-Low method is very easy use but it is not good for deal with both low and 
+      high pixel value need to enhance at same time. However, Piecewise-Linear transformation
+      is more easy to do this but it is hard to find the best $r_1$ and $r_2$ values.
     \end{enumerate}
+    % \newpage
     \subsection*{Source code for Problem 1}
     \textit{grey\_level\_transformation.hpp}
     \lstinputlisting[language=C++]{../include/grey_level_transformation.hpp}
@@ -312,38 +333,49 @@
         Plot the histogram of livingroom\_bright.raw and livingroom\_dark.raw. 
         Discuss the difference among these histograms. (Figure, 10\%; Discussion, 10\%)
         \subsection*{Ans}
+        The difference between bright and dark image histogram are distributed on different
+        mean and variance. For example, the histogram of bright image, The most pixel are locate 
+        in high value area (see Figure~\ref{fig:his-b}). On the other, dark image pixel value are 
+        concentrate on low value part (see Figure~\ref{fig:his-d}). 
         \begin{figure}[htbp]
           \centering
           \begin{subfigure}[b!]{0.46\linewidth}
             \includegraphics[width=\textwidth]{{"./img_src/livingroom_bright_his"}.png}
             \caption{Living room bright.}
+            \label{fig:his-b}
           \end{subfigure}
           \hspace{1em}
           \begin{subfigure}[b!]{0.46\linewidth}
             \includegraphics[width=\textwidth]{{"./img_src/livingroom_dark_his"}.png} 
             \caption{Living room dark.}
+            \label{fig:his-d}
           \end{subfigure}
-          \caption{Histofram of living room image}
-          \label{fig:row-col-replication-Lena}
+          \caption{Histofram of living room images}
+          \label{fig:his}
         \end{figure}
       \item  
         Perform histogram equalization on livingroom\_bright.raw and livingroom\_dark.raw. 
         Plot their histograms after equalization and compare the results, will the result
         be the same and why? (Figure, 10\%; Discussion, 10\%)
         \subsection*{Ans}
+          The result of bright and dark living room images show on Figure~\ref{fig:his-eq}. 
+          We can see after histogram equalization, both of dark and bright are get the same 
+          histogram distribution.
         \begin{figure}[htbp]
           \centering
           \begin{subfigure}[b!]{0.46\linewidth}
             \includegraphics[width=\textwidth]{{"./img_src/livingroom_bright_his_eq"}.png}
             \caption{Living room bright.}
+            \label{fig:his-eq-b}
           \end{subfigure}
           \hspace{1em}
           \begin{subfigure}[b!]{0.46\linewidth}
             \includegraphics[width=\textwidth]{{"./img_src/livingroom_dark_his_eq"}.png} 
             \caption{Living room dark.}
+            \label{fig:his-eq-d}
           \end{subfigure}
           \caption{Histofram of living room image}
-          \label{fig:row-col-replication-Lena}
+          \label{fig:his-eq}
         \end{figure}
       \newpage
       \item  
@@ -351,38 +383,42 @@
         will the result look good? Show the output images and explain what causes this 
         situation and how to improve it. (Figure, 10\%, Discussion, 10\%)
         \subsection*{Ans}
+        In Figure~\ref{fig:his-eq-b-img} and Figure~\ref{fig:his-eq-d-img} are the images which
+        is performed histogram equalization. The result images looks very similar. In the result images,
+        we can see there are some false contouring effect. For solving this problem, we can thought 
+        low-pass to make images more smooth. 
         \begin{figure}[htbp]
           \centering
-          \begin{subfigure}[b!]{0.4\linewidth}
+          \begin{subfigure}[b!]{0.40\linewidth}
             \includegraphics[width=\textwidth]{{"../result_img/problem2/livingroom_bright_src"}.png}
-            \caption{Cat dark image source.}
+            \caption{Original bright image.}
           \end{subfigure}
           \hspace{1em}
-          \begin{subfigure}[b!]{0.4\linewidth}
+          \begin{subfigure}[b!]{0.40\linewidth}
             \includegraphics[width=\textwidth]{{"../result_img/problem2/livingroom_eq_bright_src"}.png} 
-            \caption{Transformed image.}
+            \caption{Equalize image.}
           \end{subfigure}
-          \caption{Piecewise-Linear}
-          \label{fig:row-col-replication-Lena}
+          \caption{Living room bright histogram equalization}
+          \label{fig:his-eq-b-img}
         \end{figure}
 
         \begin{figure}[htbp]
           \centering
-          \begin{subfigure}[b!]{0.4\linewidth}
+          \begin{subfigure}[b!]{0.40\linewidth}
             \includegraphics[width=\textwidth]{{"../result_img/problem2/livingroom_dark_src"}.png}
-            \caption{Cat dark image source.}
+            \caption{Original dark image.}
           \end{subfigure}
           \hspace{1em}
-          \begin{subfigure}[b!]{0.4\linewidth}
+          \begin{subfigure}[b!]{0.40\linewidth}
             \includegraphics[width=\textwidth]{{"../result_img/problem2/livingroom_eq_dark_src"}.png} 
-            \caption{Transformed image.}
+            \caption{Equalize image.}
           \end{subfigure}
-          \caption{Piecewise-Linear}
-          \label{fig:row-col-replication-Lena}
+          \caption{Living room dark histogram equalization}
+          \label{fig:his-eq-d-img}
         \end{figure}
-
     \end{enumerate}
-    \subsection*{Source code for Problem 1}
+    \newpage
+    \subsection*{Source code for Problem 2}
     \textit{histogram\_equalization.hpp}
     \lstinputlisting[language=C++]{../include/histogram_equalization.hpp}
     \textit{histogram\_equalization.cpp}
