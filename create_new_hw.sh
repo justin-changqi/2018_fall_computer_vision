@@ -11,7 +11,7 @@ mkdir -p include
 mkdir -p report/img_src
 mkdir -p result_img
 mkdir -p src
-rm CMakeLists.txt
+rm -f CMakeLists.txt
 touch CMakeLists.txt
 cp ../report_temp.tex report/$_report_name
 cp ../latex.gitignore report/.gitignore 
@@ -32,9 +32,14 @@ for file in $_src_codes_list
 do
     echo "    ./include/$file"".hpp"
     echo "    ./src/$file"".cpp"
-    touch "src/$file"".cpp"
-    touch "include/$file"".hpp"
-    echo "#include \"$file"".hpp\"" >> "src/$file"".cpp"
+    cp -rf ../cpp_temp.cpp "src/$file"".cpp"
+    cp -rf ../hpp_temp.hpp "include/$file"".hpp"
+    cpp_file="src/$file"".cpp"
+    # sed  -i '1s/^/#include "\$file.hpp" /' $cpp_file
+    # sed  -i -e "s/${file}/g" "$cpp_file"
+    sed  -i '1s@^@#include "'"$file.hpp"'"@' $cpp_file
+    #printf '#include "\n%s.hpp"\n' "$file" >> $cpp_file
+    #echo "#include "'"'"$file"'"' >> $cpp_file
     echo "" >> CMakeLists.txt
     echo "add_executable( "$file src/$file.cpp" )" >> CMakeLists.txt
     echo "target_link_libraries( "$file "\${OpenCV_LIBS} )" >> CMakeLists.txt

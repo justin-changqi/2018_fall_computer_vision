@@ -18,3 +18,8 @@ make
 # execute
 ./EXE_FILE_NAME
 ```
+
+## Crate new homework Cmake project
+```
+./create_new_hw.sh <project_name> <hw_order> <first_cpp_file> <second_cpp_file> ... 
+```
