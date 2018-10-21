@@ -17,6 +17,7 @@ class LocalMoment
     int pad_y;
     LocalMoment(cv::Mat &src_img, int mask_size[2] );
     cv::Mat addPadding(cv::Mat &src_img,  int mask_size[2]);
-    cv::Mat getLocalMean();
+    std::vector<cv::Mat>  getLocalMomtEnh(double E, double k0, double k1, double k2);
     cv::Mat getLocalMoment();
+    void getImageMeanSd(cv::Mat &src_img, double *mean_sd);
 };

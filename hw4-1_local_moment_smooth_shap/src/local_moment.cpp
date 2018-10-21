@@ -77,14 +77,20 @@ cv::Mat LocalMoment::addPadding(cv::Mat &src_img, int mask_size[2])
   return out_img;
 }
 
-cv::Mat LocalMoment::getLocalMean()
+std::vector<cv::Mat> LocalMoment::getLocalMomtEnh(double E, double k0, double k1, double k2)
 {
-  cv::Mat img_out(240, 360, CV_8UC1);
-  cv::Mat src = this->src_img;
+  std::vector<cv::Mat> list;
+  cv::Mat img_mean(240, 360, CV_8UC1);
+  cv::Mat img_var(240, 360, CV_8UC1);
+  cv::Mat img_enhan(240, 360, CV_8UC1);
   cv::Mat pad = this->pad_img;
+  cv::Mat src = this->src_img;
   int *mask = this->mask_size;
   int pad_x = this->pad_x;
   int pad_y = this->pad_y;
+  double mean_sd_g[2];
+  this->getImageMeanSd(src, mean_sd_g);
+  std::cout << mean_sd_g[0] << ", " << mean_sd_g[1] << std::endl;
   for (int i = pad_y; i < pad.rows - pad_y; i++)
   {
     for (int j = pad_x; j < pad.cols - pad_x; j++ )
@@ -97,27 +103,68 @@ cv::Mat LocalMoment::getLocalMean()
           pixel_value += pad.at<uint8_t>(k, l);
         }
       }
-      img_out.at<uint8_t>(i-pad_y, j-pad_x) = (int)(pixel_value / (mask[0]*mask[1]));
+      double mean = (pixel_value / (mask[0]*mask[1]));
+      double sd = sqrt(pow(pad.at<uint8_t>(i, j)-mean, 2) / (mask[0]*mask[1]));
+      // for local Moment enhancement
+      double enhancement;
+      // std::cout << sd << std::endl;
+      if (mean <= k0*mean_sd_g[0] && k1*mean_sd_g[1] <= sd && sd <= k2*mean_sd_g[1])
+      {
+        enhancement = E * pad.at<uint8_t>(i, j);
+      } 
+      else
+      {
+        enhancement =  pad.at<uint8_t>(i, j);
+        // enhancement = 0;
+      }
+      img_mean.at<uint8_t>(i-pad_y, j-pad_x) = mean;
+      img_var.at<uint8_t>(i-pad_y, j-pad_x) = sd;
+      img_enhan.at<uint8_t>(i-pad_y, j-pad_x) = enhancement;
     }
   }
-  return img_out;
+  list.push_back(img_mean);
+  list.push_back(img_var);
+  list.push_back(img_enhan);
+  return list;
 }
 
-cv::Mat LocalMoment::getLocalMoment()
+void LocalMoment::getImageMeanSd(cv::Mat &src_img, double *mean_sd)
 {
-
+  mean_sd[0] = 0;
+  mean_sd[1] = 0;
+  for (int i = 0; i < src_img.rows; i++)
+  {
+    for (int j = 0; j < src_img.cols; j++ )
+    {
+      mean_sd[0] += src_img.at<uint8_t>(i, j);
+    }
+  }
+  mean_sd[0] /= (src_img.rows*src_img.cols);
+  for (int i = 0; i < src_img.rows; i++)
+  {
+    for (int j = 0; j < src_img.cols; j++ )
+    {
+      double src_px = src_img.at<uint8_t>(i, j);
+      mean_sd[1] += pow(src_px-mean_sd[0], 2);
+    }
+  }
+  mean_sd[1] /= (src_img.rows*src_img.cols);
+  mean_sd[1] = sqrt(mean_sd[1]);
 }
 
 int main(int argc, char **argv)
 {
   cv::Mat src(240, 360, CV_8UC1);
   loadRawFile(src, "../images/car.raw", 240, 360);
-  int mask_size[] = {3, 3};
+  int mask_size[] = {10, 10};
   LocalMoment local_moment(src, mask_size );
   // cv::Mat add_pad = local_moment.addPadding(src, mask_size);
-  cv::Mat local_mean_img = local_moment.getLocalMean();
+  std::vector<cv::Mat> lo_mean_var = local_moment.getLocalMomtEnh(4.0, 0.4, 0.02, 0.4);
   showImage("car raw", src);
-  showImage("car local mean", local_mean_img);
+  showImage("car local mean", lo_mean_var[0]);
+  showImage("car local variance", lo_mean_var[1]);
+  showImage("car local enhancement", lo_mean_var[2]);
+
   // saveImage(src, "../result_img/problem1/", "p1_src");
   cv::waitKey(0);
   return 0;
