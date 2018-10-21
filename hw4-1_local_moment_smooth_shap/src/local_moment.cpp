@@ -90,7 +90,7 @@ std::vector<cv::Mat> LocalMoment::getLocalMomtEnh(double E, double k0, double k1
   int pad_y = this->pad_y;
   double mean_sd_g[2];
   this->getImageMeanSd(src, mean_sd_g);
-  std::cout << mean_sd_g[0] << ", " << mean_sd_g[1] << std::endl;
+  // std::cout << mean_sd_g[0] << ", " << mean_sd_g[1] << std::endl;
   for (int i = pad_y; i < pad.rows - pad_y; i++)
   {
     for (int j = pad_x; j < pad.cols - pad_x; j++ )
@@ -164,8 +164,10 @@ int main(int argc, char **argv)
   showImage("car local mean", lo_mean_var[0]);
   showImage("car local variance", lo_mean_var[1]);
   showImage("car local enhancement", lo_mean_var[2]);
-
-  // saveImage(src, "../result_img/problem1/", "p1_src");
+  saveImage(src, "../result_img/problem1/", "car");
+  saveImage(lo_mean_var[0], "../result_img/problem1/", "local_mean");
+  saveImage(lo_mean_var[1], "../result_img/problem1/", "local_variance");
+  saveImage(lo_mean_var[2], "../result_img/problem1/", "local_enhancement");
   cv::waitKey(0);
   return 0;
 }
