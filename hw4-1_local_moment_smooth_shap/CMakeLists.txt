@@ -11,8 +11,11 @@ message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
 
 include_directories(include)
 
+add_library (his_eq STATIC lib/histogram_equalization.cpp)
+target_link_libraries(his_eq ${OpenCV_LIBS})
+
 add_executable( local_moment src/local_moment.cpp )
-target_link_libraries( local_moment ${OpenCV_LIBS} )
+target_link_libraries( local_moment ${OpenCV_LIBS} his_eq)
 
 add_executable( smoothing_mask src/smoothing_mask.cpp )
 target_link_libraries( smoothing_mask ${OpenCV_LIBS} )

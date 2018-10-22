@@ -1,4 +1,5 @@
 #include "local_moment.hpp"
+#include "histogram_equalization.hpp"
 
 void loadRawFile(cv::Mat &dst_img, std::string file_path, int width, int height)
 {
@@ -80,14 +81,14 @@ cv::Mat LocalMoment::addPadding(cv::Mat &src_img, int mask_size[2])
 std::vector<cv::Mat> LocalMoment::getLocalMomtEnh(double E, double k0, double k1, double k2)
 {
   std::vector<cv::Mat> list;
-  cv::Mat img_mean(240, 360, CV_8UC1);
-  cv::Mat img_var(240, 360, CV_8UC1);
-  cv::Mat img_enhan(240, 360, CV_8UC1);
   cv::Mat pad = this->pad_img;
   cv::Mat src = this->src_img;
   int *mask = this->mask_size;
   int pad_x = this->pad_x;
   int pad_y = this->pad_y;
+  cv::Mat img_mean(src.rows, src.cols, CV_8UC1);
+  cv::Mat img_var(src.rows, src.cols, CV_8UC1);
+  cv::Mat img_enhan(src.rows, src.cols, CV_8UC1);
   double mean_sd_g[2];
   this->getImageMeanSd(src, mean_sd_g);
   // std::cout << mean_sd_g[0] << ", " << mean_sd_g[1] << std::endl;
@@ -104,7 +105,16 @@ std::vector<cv::Mat> LocalMoment::getLocalMomtEnh(double E, double k0, double k1
         }
       }
       double mean = (pixel_value / (mask[0]*mask[1]));
-      double sd = sqrt(pow(pad.at<uint8_t>(i, j)-mean, 2) / (mask[0]*mask[1]));
+      double sd = 0;
+      for (int k = i - pad_y; k <= i + pad_y; k++)
+      {
+        for (int l = j - pad_x; l <= j + pad_x; l++)
+        {
+          sd += pow(pad.at<uint8_t>(k, l)-mean, 2);
+        }
+      }
+      sd = sqrt(sd / (mask[0]*mask[1]));
+      // double sd = pow(pad.at<uint8_t>(i, j)-mean, 2) / (mask[0]*mask[1]);
       // for local Moment enhancement
       double enhancement;
       // std::cout << sd << std::endl;
@@ -156,17 +166,20 @@ int main(int argc, char **argv)
 {
   cv::Mat src(240, 360, CV_8UC1);
   loadRawFile(src, "../images/car.raw", 240, 360);
-  int mask_size[] = {10, 10};
+  int mask_size[] = {3, 3};
   LocalMoment local_moment(src, mask_size );
-  // cv::Mat add_pad = local_moment.addPadding(src, mask_size);
+  // // cv::Mat add_pad = local_moment.addPadding(src, mask_size);
   std::vector<cv::Mat> lo_mean_var = local_moment.getLocalMomtEnh(4.0, 0.4, 0.02, 0.4);
   showImage("car raw", src);
   showImage("car local mean", lo_mean_var[0]);
+  HistogramEq car_sd = HistogramEq(lo_mean_var[1], 256);
+  cv::Mat eq_img =  car_sd.getEqImage();
   showImage("car local variance", lo_mean_var[1]);
   showImage("car local enhancement", lo_mean_var[2]);
   saveImage(src, "../result_img/problem1/", "car");
   saveImage(lo_mean_var[0], "../result_img/problem1/", "local_mean");
   saveImage(lo_mean_var[1], "../result_img/problem1/", "local_variance");
+  saveImage(eq_img, "../result_img/problem1/", "local_variance_eq");
   saveImage(lo_mean_var[2], "../result_img/problem1/", "local_enhancement");
   cv::waitKey(0);
   return 0;
