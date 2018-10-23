@@ -64,7 +64,11 @@
 }%
 \item[]}{\end{list}}
 
-\titlespacing*{\section} {-7pt}{2.5ex plus 1ex minus .2ex}{1.3ex plus .2ex}
+\titlespacing*{\section} 
+{-7pt}{2.5ex plus 1ex minus .2ex}{1.3ex plus .2ex}
+
+\titlespacing*{\subsection}
+{0pt}{0.1\baselineskip}{0.1\baselineskip}
 
 \begin{document}
 
@@ -93,7 +97,7 @@
 		
 	\HRule\\[0.4cm]
 		
-	{\huge\bfseries HW\#3 Grey Level Transformation \& Histogram Equalization}\\[0.4cm] % Title of your document
+	{\huge\bfseries HW\#4-1 Local Moment \&\\ Image Smoothing}\\[0.4cm] % Title of your document
 		
 	\HRule\\[1.5cm]
 		
@@ -137,7 +141,7 @@
 	%------------------------------------------------
 		
 	\vfill
-	\includegraphics[width=0.6\textwidth]{logo.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
+	\includegraphics[width=0.6\textwidth]{../../logo.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
 			 
 		%----------------------------------------------------------------------------------------
 			
@@ -146,22 +150,112 @@
 	\end{titlepage}
 	\begin{reportsection}{-1cm}{-1cm}
 		%----------------------------------------------------------------------------------------
-		\section*{Problem 1}
+		\section*{Problem 1 Local Moment (40\%)}
 		\begin{enumerate}[label=\alph*.]
 			\item 
-			      \blindtext[1]
-			      \subsection*{Ans}
-			      \blindtext[1]
+        Show the output images of local mean and local variance by using mask size 3x3. 
+        You may want to enhance the output image to see details. Discuss how do you 
+        process the image boundary problem. (Figure, 10\%; Discussion, 10\%)
+				\subsection*{Ans}
+				For shifting mask around an image, we have to deal with boundary problem. In this 
+				homework, I add padding on the image which size is $pad_{cols}=(mask_{cols}-1)/2$
+				ans $pad_{rows}=(mask_{rows}-1)/2$. Feeding the pads value with \textbf{mirror reflection} 
+				method.
+				\begin{figure}[h!]
+					\centering
+					\begin{subfigure}[t]{0.49\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/problem1/car"}.png}
+						\caption{Car image source.}
+					\end{subfigure}
+					\hfill 
+					\begin{subfigure}[t]{0.49\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/problem1/local_mean"}.png} 
+						\caption{Local mean.}
+					\end{subfigure}
+					\vskip\baselineskip
+					\begin{subfigure}[t]{0.49\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/problem1/local_variance"}.png}
+						\caption{Local standard deviation.}
+					\end{subfigure}
+					\hfill
+					\begin{subfigure}[t]{0.49\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/problem1/local_variance_eq"}.png} 
+						\caption{ Local standard deviation after enhancement.}
+					\end{subfigure}
+					\caption{Local mean and standard deviation with 3x3 kernel result.}
+					\label{fig:p1_result}
+				\end{figure}
+        \newpage
+      \item 
+        Perform local enhancement on car\_360x240.raw by designing your own method based 
+        on the local moments from (a), show the output result. You may refer the method 
+        used in the textbook. Discuss how you set the parameters. (Figure, 10\%; 
+        Discussion, 10\%)
+				\subsection*{Ans}
+				For enhancing this image, I performed it by Equation~(\ref{eqt:enhc}) which refer to textbook.
+				When local mask mean $m_{m}$ is less than full image mean $m_{G}$ times a const $k_{0}$ and 
+				local standard deviation $\sigma_{m}$ is between full image standard deviation $\sigma_{G}$ times
+				const $k_1$ and $k_2$, then we enhance pixel value $f(x, y)$ by const $E$.  
+				\begin{equation}
+					g(x, y) = 
+					\begin{cases} 
+						E \times f(x, y)	& \text{if } m_{m} \leq k_{0}m_{G} \text{ and } 
+																k_{1}\sigma_{G} \leq \sigma_{m} \leq k_{2}\sigma_{G}\\
+						f(x, y)      			& \text{if } others
+					\end{cases}
+					\label{eqt:enhc}
+				\end{equation}
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=.6\textwidth]{{"../result_img/problem1/local_enhancement"}.png}
+					\caption{Result of local enhancement.}
+					\label{fig:local-enhancement}
+				\end{figure}
+        % \blindtext[1]
 		\end{enumerate}
-		
-		\begin{thebibliography}{9}
-			\bibitem{MSE-wiki} Wikipedia. \emph{Mean squared error}[online]. \\
-			Available from World Wide Web: (https://en.wikipedia.org/wiki/Mean\_squared\_error).
-			\bibitem{PSNR-wiki} Wikipedia. \emph{Peak signal-to-noise ratio}[online].\\
-			Available from World Wide Web: \\
-			(https://en.wikipedia.org/wiki/Peak\_signal-to-noise\_ratio).
-		\end{thebibliography}
-		
+	\end{reportsection}
+	% \newpage
+  \begin{reportsection}{-1cm}{-1cm}
+    \section*{Problem 2 Image Smoothing (60\%)}
+		\begin{enumerate}[label=\alph*.]
+			\item 
+				Try to extract all sheep from sheep\_615x368.raw by performing low-pass filtering
+				(Blurring) and thresholding. The output image is a binary image containing the 
+				white blobs of sheep and black background. Try to remove the noise caused by 
+				the grass as much as you can. Explain how you design your LPF masks and 
+				threshold. (Figure, 10\%; Discussion, 10\%)
+				\subsection*{Ans}
+				For smooth the image, I performed median filter with kernel size $11 \times 11$. Setting 
+				threshold by 96\% the highest pixels value. The LPF and thresholding result show in 
+				Figure~\ref{fig:filter-masking}.
+				\begin{figure}[h]
+					\centering
+					\begin{subfigure}[t]{0.49\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/problem2/median_filter"}.png}
+						\caption{Median Filter.}
+					\end{subfigure}
+					\hfill 
+					\begin{subfigure}[t]{0.49\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/problem2/th_median_filter_th"}.png} 
+						\caption{Threshold with 96\% the highest values.}
+					\end{subfigure}
+					\caption{Filtering and Masking result}
+					\label{fig:filter-masking}
+				\end{figure}
+				% \blindtext[1]
+      \item 
+				Use the designed mask image\ LRcorner\_615x368.raw as the ROI mask and perform 
+				logic operation on the results (a) to extract the sheep from the lower left 
+				corner. (Figure, 10\%)
+				\subsection*{Ans}
+				\begin{figure}[htbp]
+					\centering
+					\includegraphics[width=0.8\textwidth]{{"../result_img/problem2/sheep_lr_mask"}.png}
+					\caption{Filtering and Masking result}
+					\label{fig:filter-masking}
+				\end{figure}
+        % \blindtext[1]
+    \end{enumerate}
 	\end{reportsection}
 	
 \end{document}
