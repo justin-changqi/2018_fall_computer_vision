@@ -169,7 +169,7 @@ int main(int argc, char **argv)
   int mask_size[] = {3, 3};
   LocalMoment local_moment(src, mask_size );
   // // cv::Mat add_pad = local_moment.addPadding(src, mask_size);
-  std::vector<cv::Mat> lo_mean_var = local_moment.getLocalMomtEnh(4.0, 0.4, 0.02, 0.4);
+  std::vector<cv::Mat> lo_mean_var = local_moment.getLocalMomtEnh(2.0, 0.4, 0.01, 0.4);
   showImage("car raw", src);
   showImage("car local mean", lo_mean_var[0]);
   HistogramEq car_sd = HistogramEq(lo_mean_var[1], 256);

@@ -193,9 +193,12 @@
         Discussion, 10\%)
 				\subsection*{Ans}
 				For enhancing this image, I performed it by Equation~(\ref{eqt:enhc}) which refer to textbook.
-				When local mask mean $m_{m}$ is less than full image mean $m_{G}$ times a const $k_{0}$ and 
+				When local mask mean $m_{m}$ is less than full image mean $m_{G}$ times a constant $k_{0}$ and 
 				local standard deviation $\sigma_{m}$ is between full image standard deviation $\sigma_{G}$ times
-				const $k_1$ and $k_2$, then we enhance pixel value $f(x, y)$ by const $E$.  
+				constant $k_1$ and $k_2$, then we enhance pixel value $f(x, y)$ by constant $E$. In this image, 
+				we are trying to enhance the dark part so I set $k_{0}=0.4$. Set standard deviation range by 
+				experiment. The perform range for standard deviation is $0.01\sigma_{G} \leq \sigma_{m} \leq 
+				0.4\sigma_{G}$. E constant set as 2.  
 				\begin{equation}
 					g(x, y) = 
 					\begin{cases} 
@@ -227,7 +230,7 @@
 				\subsection*{Ans}
 				For smooth the image, I performed median filter with kernel size $11 \times 11$. Setting 
 				threshold by 96\% the highest pixels value. The LPF and thresholding result show in 
-				Figure~\ref{fig:filter-masking}.
+				Figure~\ref{fig:filter-masking}. 
 				\begin{figure}[h]
 					\centering
 					\begin{subfigure}[t]{0.49\linewidth}
