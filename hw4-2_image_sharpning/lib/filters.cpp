@@ -22,7 +22,7 @@ cv::Mat Filter::setMask()
     case Method::SOBEL:
     {
       cv::Mat mask_x = (cv::Mat_<int>(3,3) << -1, 0, 1, -2, 0, 2, -1, 0, 1);
-      cv::Mat mask_y = (cv::Mat_<int>(3,3) << -1, 2, 1, 0, 0, 0, -1, -2, -1);
+      cv::Mat mask_y = (cv::Mat_<int>(3,3) << 1, 2, 1, 0, 0, 0, -1, -2, -1);
       this->masks.push_back(mask_x);
       this->masks.push_back(mask_y);
       break;
@@ -104,18 +104,28 @@ cv::Mat Filter::getFilteredImg()
   } 
   else
   {
-    return imgs_masked[0];
+    cv::Mat sum_img = this->sumImgs(imgs_masked);
+    cv::Mat constrain_img = this->Constrain(sum_img);
+    return constrain_img;
   }
 }
 
 cv::Mat Filter::sumImgs(std::vector<cv::Mat> img_list)
 { 
+  cv::Mat out_img(src_img.rows, src_img.cols, CV_32SC1);
   for (int i = 0; i < this->src_img.rows; i++)
   {
     for (int j = 0; j < this->src_img.cols; j++)
     {
+      int px_sum = 0;
+      for (int k = 0; k < img_list.size(); k++)
+      {
+        px_sum += img_list[k].at<int>(i, j);
+      }
+      out_img.at<int>(i, j) = px_sum;
     }
   }
+  return out_img;
 }
 
 int Filter::det(int n, cv::Mat &mat)
@@ -166,6 +176,25 @@ int Filter::det(cv::Mat &mat)
          mat.at<int>(0,1)*mat.at<int>(1,0)*mat.at<int>(2,2);
 }
 
+cv::Mat Filter::refineImg(cv::Mat &src)
+{
+  cv::Mat refined(src.rows, src.cols, CV_8UC1);
+  switch(this->method)
+  {
+    case Method::LAPLACIAN: 
+    {
+      refined = this->Normalize(src);
+      break;
+    } 
+    case Method::SOBEL:
+    {
+      refined = this->Constrain(src);
+      break;
+    }
+  }
+  return refined;
+}
+
 cv::Mat Filter::Normalize(cv::Mat &src)
 {
   cv::Mat nor_mat(src.rows, src.cols, CV_8UC1);
@@ -192,4 +221,19 @@ cv::Mat Filter::Normalize(cv::Mat &src)
   }
   // std::cout << nor_mat << std::endl;
   return nor_mat;
+}
+
+cv::Mat Filter::Constrain(cv::Mat &src)
+{
+  // std::cout << src << std::endl;
+  cv::Mat constrain_mat(src.rows, src.cols, CV_8UC1);
+  for (int i = 0; i < src.rows; i++)
+  {
+    for (int j = 0; j < src.cols; j++)
+    {
+      uint8_t px = std::min(255, src.at<int>(i, j));
+      constrain_mat.at<uint8_t>(i, j) = px;
+    }
+  }
+  return constrain_mat;
 }

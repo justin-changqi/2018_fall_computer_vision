@@ -46,15 +46,24 @@ int main(int argc, char **argv)
   loadRawFile(src_n, "../images/lena512_noise.raw", 512, 512);
   Filter laplacian(src, Method::LAPLACIAN);
   Filter laplacian_n(src_n, Method::LAPLACIAN);
+  Filter sobel(src, Method::SOBEL);
+  Filter sobel_n(src_n, Method::SOBEL);
   cv::Mat LPC = laplacian.getFilteredImg();
   cv::Mat LPC_n = laplacian_n.getFilteredImg();
-  // Filter sobel(src, Method::SOBEL);
+  cv::Mat sobel_img = sobel.getFilteredImg();
+  cv::Mat sobel_n_img = sobel_n.getFilteredImg();
   showImage("lena src", src);
-  showImage("lena laplacian", LPC);
   showImage("lena noise src", src_n);
+  showImage("lena laplacian", LPC);
   showImage("lena noise laplacian", LPC_n);
+  showImage("lena sobel", sobel_img);
+  showImage("lena noise sobel", sobel_n_img);
   saveImage(src, "../result_img/", "lena_src");
   saveImage(src_n, "../result_img/", "lena_noise_src");
+  saveImage(LPC, "../result_img/", "laplacian");
+  saveImage(LPC_n, "../result_img/", "laplacian_noise");
+  saveImage(sobel_img, "../result_img/", "sobel");
+  saveImage(sobel_n_img, "../result_img/", "sobel_noise");
   cv::waitKey(0);
   return 0;
 }

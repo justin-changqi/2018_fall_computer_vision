@@ -23,5 +23,7 @@ class Filter
   cv::Mat sumImgs(std::vector<cv::Mat> img_lists);
   int det(int n, cv::Mat &mat);
   int det(cv::Mat &mat);
+  cv::Mat refineImg(cv::Mat &src);
   cv::Mat Normalize(cv::Mat &src);
+  cv::Mat Constrain(cv::Mat &src);
 };
