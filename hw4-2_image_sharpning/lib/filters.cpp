@@ -38,7 +38,8 @@ cv::Mat Filter::applyMask(cv::Mat &src_img, cv::Mat &mask)
   {
     for (int j = 0; j < src_img.cols; j++)
     {
-      cv::Mat op_make(mask.rows, mask.cols, CV_32SC1);
+      // cv::Mat op_make(mask.rows, mask.cols, CV_32SC1);
+      int px = 0;
       for (int k = 0; k < mask.rows; k++)
       {
         for (int l = 0; l < mask.cols; l++)
@@ -46,11 +47,12 @@ cv::Mat Filter::applyMask(cv::Mat &src_img, cv::Mat &mask)
           int offset_y = i + k;
           int offset_x = j + l;
           // std::cout << "(" << offset_x << ", " << offset_y << ")" << std::endl;
-          op_make.at<int>(k, l) = int(padded_img.at<uint8_t>(offset_y, offset_x) * 
-                                      mask.at<int>(k, l));
+          // op_make.at<int>(k, l) = int(padded_img.at<uint8_t>(offset_y, offset_x) * 
+          //                             mask.at<int>(k, l));
+          px += padded_img.at<uint8_t>(offset_y, offset_x) * mask.at<int>(k, l);
         }
       }
-      out_img.at<int>(i, j) = abs(this->det(op_make));
+      out_img.at<int>(i, j) = abs(px);
       // std::cout << op_make << std::endl;
       // std::cout << this->det(op_make) << std::endl;
     }
@@ -172,15 +174,15 @@ cv::Mat Filter::Normalize(cv::Mat &src)
   {
     for (int j = 0; j < src.cols; j++)
     {
-      std::cout<<src.at<int>(i, j)<< std::endl;
       px_list.push_back(src.at<int>(i, j));
     }
   }
   int max_px = *max_element(px_list.begin(), px_list.end());
   int min_px = *min_element(px_list.begin(), px_list.end());
-  std::cout<<"Max value: "<< max_px << std::endl;
-  std::cout<<"Min value: "<< min_px << std::endl;
-  double scale = 255 / (max_px - min_px);
+  // std::cout<<"Max value: "<< max_px << std::endl;
+  // std::cout<<"Min value: "<< min_px << std::endl;
+  double scale = 255.0 / (max_px - min_px);
+  // std::cout << scale << std::endl;
   for (int i = 0; i < src.rows; i++)
   {
     for (int j = 0; j < src.cols; j++)
