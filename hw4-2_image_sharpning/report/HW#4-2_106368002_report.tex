@@ -96,7 +96,7 @@
 		
 	\HRule\\[0.4cm]
 		
-	{\huge\bfseries HW\#3 Grey Level Transformation \& Histogram Equalization}\\[0.4cm] % Title of your document
+	{\huge\bfseries HW\#4-2 Laplacian and Sobel Filtering \& Image Sharping}\\[0.4cm] % Title of your document
 		
 	\HRule\\[1.5cm]
 		
@@ -147,24 +147,150 @@
 		% \vfill % Push the date up 1/4 of the remaining page
 			
 	\end{titlepage}
-	\begin{reportsection}{-1cm}{-1cm}
+	\begin{reportsection}{-2cm}{-2cm}
 		%----------------------------------------------------------------------------------------
-		\section*{Problem 1}
-		\begin{enumerate}[label=\alph*.]
+		\section*{Problem 2 ~ Image Smoothing and Sharpening}
+		\begin{enumerate}[label=\alph*., start=3]
 			\item 
-			      \blindtext[1]
-			      \subsection*{Ans}
-			      \blindtext[1]
-		\end{enumerate}
-		
-		\begin{thebibliography}{9}
-			\bibitem{MSE-wiki} Wikipedia. \emph{Mean squared error}[online]. \\
-			Available from World Wide Web: (https://en.wikipedia.org/wiki/Mean\_squared\_error).
-			\bibitem{PSNR-wiki} Wikipedia. \emph{Peak signal-to-noise ratio}[online].\\
-			Available from World Wide Web: \\
-			(https://en.wikipedia.org/wiki/Peak\_signal-to-noise\_ratio).
-		\end{thebibliography}
-		
+				Perform Laplacian filtering and Sobel filtering on lena512.raw and lena512\_noise.
+				raw with the corresponding mask below respectively. Note that you should combine 
+				both directional Sobel filtering into one image. Show the output result and 
+				discuss the noise effects on both filters (1 st order and 2 nd order). How do 
+				you process the image boundary? (Figure, 10\%; Discussion, 5\%)
+				\vspace{1em}
+				\subsection*{Ans}
+				In Figure~\ref{fig:laplacian}, I applied the Laplacian on both Lena original 
+				image and Lena noised image. The result shows Laplacian filter is not able to 
+				get the good edge from noised image. To solve boundary problem, I add padding on the image which size is $pad_{cols}=(mask_{cols}-1)/2$
+				ans $pad_{rows}=(mask_{rows}-1)/2$. Feeding the pads value with \textbf{mirror reflection} 
+				method.
+				\begin{figure}[h!]
+					\centering
+					\begin{subfigure}[t]{0.49\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/laplacian"}.png}
+						\caption{Lena after Laplacian filter.}
+					\end{subfigure}
+					\hfill 
+					\begin{subfigure}[t]{0.49\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/laplacian_noise"}.png} 
+						\caption{Lena noised after Laplacian filter.}
+					\end{subfigure}
+					\caption{Laplacian filter result with 3x3 kernel.}
+					\label{fig:laplacian}
+				\end{figure}
+				\vspace{1em}
+
+				If I compute those images with Sebel filter, it will get better edge result than
+				Laplacian filter. For noised image, you can see that there are some edges in the 
+				image, but the noise is still strong. 
+				\begin{figure}[h!]
+					\centering
+					\begin{subfigure}[t]{0.49\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/sobel"}.png}
+						\caption{Lena after Sobel filter.}
+					\end{subfigure}
+					\hfill 
+					\begin{subfigure}[t]{0.49\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/sobel_noise"}.png} 
+						\caption{Lena noised after Sobel filter.}
+					\end{subfigure}
+					\caption{Sobel filter result with 3x3 kernel.}
+					\label{fig:p1_result}
+				\end{figure}
+			% \vspace{1em}
+			
+			\newpage
+			\item 
+				Using the equation below, perform LPF and arithmetic subtraction operations on
+				lena512.raw to get the sharpened image. (Figure, 10\%; Discussion 5\%)
+				\begin{equation}
+					Sharpened = Original-\textbf{c}\times (LPF~of~Original), where \textbf{ c } is 
+					~a~constant.
+					\label{eq:unparp-mask}
+				\end{equation}
+					\subsection*{Ans}
+					Here I use Equation~\ref{eq:unparp-mask} to get unsharp mask with different 
+					\textbf{c} value. As Figure~\ref{fig:unsharp-mask-img} shows that If we use 
+					higher \textbf{c} value. We will get the darker unsharp mask.
+					\begin{figure}[h!]
+						\centering
+						\begin{subfigure}[t]{0.4\linewidth}
+							\includegraphics[width=\textwidth]{{"../result_img/sharped_img_03"}.png}
+							\caption{$\textbf{c} = 0.3.$}
+						\end{subfigure}
+						\hfill 
+						\begin{subfigure}[t]{0.4\linewidth}
+							\includegraphics[width=\textwidth]{{"../result_img/sharped_img_05"}.png} 
+							\caption{$\textbf{c} = 0.5.$}
+						\end{subfigure}
+					\end{figure}
+					\begin{figure}[h!]
+						\ContinuedFloat 
+						\begin{subfigure}[t]{0.4\linewidth}
+							\includegraphics[width=\textwidth]{{"../result_img/sharped_img_08"}.png}
+							\caption{$\textbf{c} = 0.8.$}
+						\end{subfigure}
+						\hfill
+						\begin{subfigure}[t]{0.4\linewidth}
+							\includegraphics[width=\textwidth]{{"../result_img/sharped_img_1"}.png} 
+							\caption{ $\textbf{c} = 1.0.$}
+						\end{subfigure}
+						\caption{Lena subtract LPF Lena result with difference \textbf{c} values.}
+						\label{fig:unsharp-mask-img}
+					\end{figure}
+					\newpage
+					In Figure~\ref{fig:unsharp-n-mask-img}, I applied arithmetic subtraction 
+					operation on the noised image.
+					\begin{figure}[h!]
+						\centering
+							\includegraphics[width=0.4\textwidth]{{"../result_img/sharped_n_img_03"}.png}
+						\caption{Lena subtract LPF Lena Noised result with $\textbf{c} = 0.3.$}
+						\label{fig:unsharp-n-mask-img}
+					\end{figure}
+
+					If we want to get sharpened image, we need to base on the 
+					Equation\ref{eq:unparp-image}. The results of sharpened image show in the Figure
+					~\ref{fig:unsharp-img} and Figure~\ref{fig:unsharp-n-img}.
+					\begin{equation}
+						Sharpened = Original+\textbf{c}\times (Original - Blurred),~where \textbf{ c } is 
+						~a~constant.
+						\label{eq:unparp-image}
+					\end{equation}
+					\begin{figure}[h!]
+						\centering
+						\begin{subfigure}[t]{0.45\linewidth}
+							\includegraphics[width=\textwidth]{{"../result_img/sharped2_03"}.png}
+							\caption{$\textbf{c} = 0.3.$}
+						\end{subfigure}
+						\hfill 
+						\begin{subfigure}[t]{0.45\linewidth}
+							\includegraphics[width=\textwidth]{{"../result_img/sharped2_05"}.png} 
+							\caption{$\textbf{c} = 0.5.$}
+						\end{subfigure}
+					\end{figure}
+					\begin{figure}[h!]
+						\ContinuedFloat 
+						\begin{subfigure}[t]{0.45\linewidth}
+							\includegraphics[width=\textwidth]{{"../result_img/sharped2_08"}.png}
+							\caption{$\textbf{c} = 0.8.$}
+						\end{subfigure}
+						\hfill
+						\begin{subfigure}[t]{0.45\linewidth}
+							\includegraphics[width=\textwidth]{{"../result_img/sharped2_1"}.png} 
+							\caption{ $\textbf{c} = 1.0.$}
+						\end{subfigure}
+						\caption{Sharped image with different \textbf{c} values.}
+						\label{fig:unsharp-img}
+					\end{figure}
+					\newpage
+					\begin{figure}[h!]
+						\centering
+							\includegraphics[width=0.45\textwidth]{{"../result_img/sharped2_n_08"}.png}
+						\caption{Sharped noised image result with $\textbf{c} = 0.8.$}
+						\label{fig:unsharp-n-img}
+					\end{figure}
+
+		\end{enumerate}	
 	\end{reportsection}
 	
 \end{document}
