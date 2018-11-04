@@ -1,4 +1,7 @@
 # 2018_fall_computer_vision
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1551e93c45ad430c8befbfa452363eb8)](https://app.codacy.com/app/justin-changqi/2018_fall_computer_vision?utm_source=github.com&utm_medium=referral&utm_content=justin-changqi/2018_fall_computer_vision&utm_campaign=Badge_Grade_Dashboard)
+
 Homework source code for 2018 fall term computer vision course at Taipei Tech MS program.
 
 ## System Environment
