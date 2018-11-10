@@ -101,56 +101,43 @@ std::complex<double> Dft2d::getDftValue(int u, int v)
 
 // **************** IDFT *********************
 
-IDft2d::IDft2d(cv::Mat &src_img)
+IDft2d::IDft2d(const cv::Mat &re, const cv::Mat &im)
 {
-  this->src_img_ = src_img.clone();
+  this->Re_ = re.clone();
+  this->Im_ = im.clone();
+  this->inv_img_ = cv::Mat(Re_.rows, Re_.cols, CV_64FC1);
 }
 
-cv::Mat IDft2d::getIDftImg()
+void IDft2d::computeIDft(int num_threads=8)
 {
-  static cv::Mat img_out(src_img_.rows, src_img_.cols, CV_64FC1);
-  for (int i = 0; i < src_img_.rows; i++) 
-  {
-    for (int j = 0; j < src_img_.cols; j++) 
-    {
-      std::complex<double> Fxy;
-      Fxy = this->getIDftValue(j, i);
-      img_out.at<double>(i, j) = std::abs(Fxy);
-      std::cout << "\rCalculating DFT " << std::setprecision(4) 
-                << ((i*src_img_.rows+j)*100.0)/(double)(src_img_.rows*src_img_.cols)
-                << " %  " << std::flush;
-    }
-  }
-  std::cout << std::endl;
-  return img_out;
-}
-
-cv::Mat IDft2d::getIDftImg(int num_threads)
-{
-  static cv::Mat img_out(src_img_.rows, src_img_.cols, CV_64FC1);
+  
   dtf_p_count_ = 0;
   std::thread post(&IDft2d::IdftProgress, this);
   std::vector<std::thread> threads;
-  double trunk = src_img_.rows / num_threads;
+  double trunk = inv_img_.rows / num_threads;
   for (int i = 0; i < num_threads; i++)
   {
-    threads.push_back(std::thread(&IDft2d::IdftTask, this, i*trunk, (i+1)*trunk, std::ref(img_out)));
+    threads.push_back(std::thread(&IDft2d::IdftTask, this, i*trunk, (i+1)*trunk));
   }
   for(int i = 0; i < threads.size() ; i++)
   {
       threads.at(i).join();
   }
   post.join();
-  return img_out;
 }
 
-void IDft2d::IdftTask(int min_rows, int max_rows, cv::Mat &dft_out)
+cv::Mat IDft2d::getInvImg()
+{
+  return inv_img_.clone();
+}
+
+void IDft2d::IdftTask(int min_rows, int max_rows)
 {
   for (int i = min_rows; i < max_rows; i++) 
   {
-    for (int j = 0; j < src_img_.cols; j++) 
+    for (int j = 0; j < inv_img_.cols; j++) 
     {
-      dft_out.at<double>(i, j) = std::abs(this->getIDftValue(j, i));
+      inv_img_.at<double>(i, j) = this->getIDftValue(j, i);
       dtf_p_count_mtx_.lock();
       dtf_p_count_ += 1;
       dtf_p_count_mtx_.unlock();
@@ -160,13 +147,13 @@ void IDft2d::IdftTask(int min_rows, int max_rows, cv::Mat &dft_out)
 
 void IDft2d::IdftProgress()
 {
-  double size_img = src_img_.rows * src_img_.cols;
+  double size_img = inv_img_.rows * inv_img_.cols;
   while(true)
   {
     dtf_p_count_mtx_.lock();
     double persent = (dtf_p_count_*100) / size_img;
     dtf_p_count_mtx_.unlock();
-    std::cout << "\rDFT Progress: " << std::setprecision(4)  
+    std::cout << "\rIDFT Progress: " << std::setprecision(4)  
               << persent << "%     " << std::flush;
     if (dtf_p_count_ >= size_img) break;
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -174,19 +161,19 @@ void IDft2d::IdftProgress()
   std::cout << std::endl;
 }
 
-std::complex<double> IDft2d::getIDftValue(int u, int v)
+double IDft2d::getIDftValue(int x, int y)
 {
   std::complex<double> result(0, 0);
-  const double M = src_img_.cols;
-  const double N = src_img_.rows;
+  const double M = Re_.cols;
+  const double N = Re_.rows;
   const std::complex<double> i(0, 1);
-  for (int y = 0; y < N; y++) 
+  for (int v = 0; v < N; v++) 
   {
-    for (int x = 0; x < M; x++) 
+    for (int u = 0; u < M; u++) 
     {
-      double fxy = src_img_.at<uint8_t>(y, x)*pow(-1, x+y);
-      result += fxy*exp(-2.0*i*M_PI*(u*x/M+v*y/M));
+      std::complex<double> Fuv = Re_.at<double>(v, u)+Im_.at<double>(v, u)*i;
+      result += Fuv*exp(2.0*i*M_PI*(u*x/M+v*y/M));
     }
   }
-  return result/(M*N);
+  return abs(result)*pow(-1, x+y);
 }

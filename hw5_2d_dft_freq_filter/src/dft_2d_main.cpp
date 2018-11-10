@@ -53,10 +53,11 @@ int main(int argc, char **argv)
   Dft2d dft2d(src);
   dft2d.computeDft(8);
   cv::Mat dft_result = dft2d.getSpectrumImg();
-  // IDft2d idft2d(dft_result);
-  //  cv::Mat idft_result = idft2d.getIDftImg();
+  IDft2d idft2d(dft2d.getRealMat(), dft2d.getImagMat());
+  idft2d.computeIDft(8);
+  cv::Mat idft_result = idft2d.getInvImg();
   showImage("DFT result", dft_result);
-  // showImage("IDFT result", idft_result);
+  showImage("IDFT result", idft_result);
   // saveImage(src, "../result_img/", "p1_src");
   cv::waitKey(0);
   return 0;
