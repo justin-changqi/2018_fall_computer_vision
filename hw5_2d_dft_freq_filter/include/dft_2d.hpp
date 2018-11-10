@@ -1,8 +1,15 @@
 #include <iostream>
-#include <fstream>
+#include <iomanip>
+#include <complex>
+#include <cmath>
+#include <thread>
 #include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
 
-void loadRawFile(cv::Mat &dst_img, const std::string file_path, int width, int height);
-void showImage(std::string win_name, cv::Mat &show_img);
-void saveImage(cv::Mat &img, const std::string folder, std::string file_name);
+class Dft2d {
+  public:
+  Dft2d(cv::Mat &src_img);
+  cv::Mat getDftImg();
+  private:
+  cv::Mat src_img_;
+  std::complex<double> getDftValue(int u, int v);
+};

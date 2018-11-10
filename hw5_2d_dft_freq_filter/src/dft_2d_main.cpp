@@ -1,4 +1,12 @@
+#include <iostream>
+#include <fstream>
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include "dft_2d.hpp"
+
+void loadRawFile(cv::Mat &dst_img, const std::string file_path, int width, int height);
+void showImage(std::string win_name, cv::Mat &show_img);
+void saveImage(cv::Mat &img, const std::string folder, std::string file_name);
 
 void loadRawFile(cv::Mat &dst_img, const std::string file_path, int width, int height)
 {
@@ -40,9 +48,12 @@ void saveImage(cv::Mat &img, const std::string folder, std::string file_name)
 
 int main(int argc, char **argv)
 {
-  cv::Mat src(256, 256, CV_8UC1);
-  loadRawFile(src, "../images/cat_bright.raw", 256, 256);
-  saveImage(src, "../result_img/problem1/", "p1_src");
+  cv::Mat src(512, 512, CV_8UC1);
+  loadRawFile(src, "../images/lena512.raw", 512, 512);
+  Dft2d dft2d(src);
+  cv::Mat dft_result = dft2d.getDftImg();
+  showImage("DFT result", dft_result);
+  // saveImage(src, "../result_img/", "p1_src");
   cv::waitKey(0);
   return 0;
 }

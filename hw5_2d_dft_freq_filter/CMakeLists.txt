@@ -11,8 +11,11 @@ message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
 
 include_directories(include)
 
-add_executable( dft_2d src/dft_2d.cpp )
-target_link_libraries( dft_2d ${OpenCV_LIBS} )
+add_library (libdft2d STATIC lib/dft_2d.cpp)
+target_link_libraries(libdft2d ${OpenCV_LIBS})
 
-add_executable( noise_filter src/noise_filter.cpp )
+add_executable( dft_2d src/dft_2d_main.cpp )
+target_link_libraries( dft_2d ${OpenCV_LIBS} libdft2d)
+
+add_executable( noise_filter src/noise_filter_main.cpp )
 target_link_libraries( noise_filter ${OpenCV_LIBS} )
