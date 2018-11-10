@@ -48,11 +48,14 @@ void saveImage(cv::Mat &img, const std::string folder, std::string file_name)
 
 int main(int argc, char **argv)
 {
-  cv::Mat src(512, 512, CV_8UC1);
-  loadRawFile(src, "../images/lena512.raw", 512, 512);
+  cv::Mat src(256, 256, CV_8UC1);
+  loadRawFile(src, "../images/lena_256.raw", 256, 256);
   Dft2d dft2d(src);
-  cv::Mat dft_result = dft2d.getDftImg();
+  cv::Mat dft_result = dft2d.getDftImg(8);
+  // IDft2d idft2d(dft_result);
+  //  cv::Mat idft_result = idft2d.getIDftImg();
   showImage("DFT result", dft_result);
+  // showImage("IDFT result", idft_result);
   // saveImage(src, "../result_img/", "p1_src");
   cv::waitKey(0);
   return 0;
