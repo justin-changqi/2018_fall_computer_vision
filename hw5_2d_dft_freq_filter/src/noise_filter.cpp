@@ -1,6 +1,6 @@
 #include "noise_filter.hpp"
 
-void loadRawFile(cv::Mat &dst_img, std::string file_path, int width, int height)
+void loadRawFile(cv::Mat &dst_img, const std::string file_path, int width, int height)
 {
   std::FILE* f = std::fopen(file_path.c_str(), "rb");
   // std::vector<char> buf(width*height);    // char is trivally copyable
@@ -32,7 +32,7 @@ void showImage(std::string win_name, cv::Mat &show_img)
   }
 }
 
-void saveImage(cv::Mat &img, std::string folder, std::string file_name)
+void saveImage(cv::Mat &img, const std::string folder, std::string file_name)
 {
   std::string save_file = folder + file_name + ".png";
   cv::imwrite(save_file, img);
