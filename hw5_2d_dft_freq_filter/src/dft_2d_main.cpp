@@ -46,19 +46,62 @@ void saveImage(cv::Mat &img, const std::string folder, std::string file_name)
   cv::imwrite(save_file, img);
 }
 
+void timeMeasure(bool starting)
+{
+  using namespace std::chrono; 
+  static time_point<_V2::system_clock, nanoseconds> start, stop;
+  if (starting)
+  {
+    start = std::chrono::high_resolution_clock::now(); 
+  }
+  else
+  {
+    stop = std::chrono::high_resolution_clock::now(); 
+    auto duration = duration_cast<minutes>(stop - start);
+    std::cout << "Execute time: " <<  duration.count() << " minutes" << std::endl;
+  }
+}
+
 int main(int argc, char **argv)
 {
-  cv::Mat src(256, 256, CV_8UC1);
-  loadRawFile(src, "../images/lena_256.raw", 256, 256);
+  
+  cv::Mat src(512, 512, CV_8UC1);
+  loadRawFile(src, "../images/lena512.raw", 512, 512);
+  cv::Mat lena_src_n(512, 512, CV_8UC1);
+  loadRawFile(lena_src_n, "../images/lena512_noise.raw", 512, 512);
   Dft2d dft2d(src);
+  std::cout << "Start Lena DFT with 8 threads" << std::endl;
+  timeMeasure(true);
   dft2d.computeDft(8);
+  timeMeasure(false);
   cv::Mat dft_result = dft2d.getSpectrumImg();
   IDft2d idft2d(dft2d.getRealMat(), dft2d.getImagMat());
+  std::cout << "Start Lena IDFT with 8 threads" << std::endl;
+  timeMeasure(true);
   idft2d.computeIDft(8);
+  timeMeasure(false);
   cv::Mat idft_result = idft2d.getInvImg();
+  
+  Dft2d dft2d_n(lena_src_n);
+  std::cout << "Start Lena Noised DFT with 8 threads" << std::endl;
+  timeMeasure(true);
+  dft2d_n.computeDft(8);
+  timeMeasure(false);
+  cv::Mat dft_result_n = dft2d_n.getSpectrumImg();
+  IDft2d idft2d_n(dft2d_n.getRealMat(), dft2d_n.getImagMat());
+  std::cout << "Start Lena Noised IDFT with 8 threads" << std::endl;
+  timeMeasure(true);
+  idft2d_n.computeIDft(8);
+  timeMeasure(false);
+  cv::Mat idft_result_n = idft2d_n.getInvImg();
   showImage("DFT result", dft_result);
   showImage("IDFT result", idft_result);
-  // saveImage(src, "../result_img/", "p1_src");
+  showImage("DFT Noised result", dft_result_n);
+  showImage("IDFT Noised result", idft_result_n);
+  saveImage(dft_result, "../result_img/", "lena_dft");
+  saveImage(idft_result, "../result_img/", "lena_idft");
+  saveImage(dft_result_n, "../result_img/", "lena_noise_dft");
+  saveImage(idft_result_n, "../result_img/", "lena_noise_idft");
   cv::waitKey(0);
   return 0;
 }

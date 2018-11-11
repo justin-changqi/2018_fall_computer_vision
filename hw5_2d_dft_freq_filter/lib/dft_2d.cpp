@@ -93,7 +93,7 @@ std::complex<double> Dft2d::getDftValue(int u, int v)
     for (int x = 0; x < M; x++) 
     {
       double fxy = src_img_.at<uint8_t>(y, x)*pow(-1, x+y);
-      result += fxy*exp(-2.0*i*M_PI*(u*x/M+v*y/M));
+      result += fxy*exp(-2.0*i*M_PI*((u*x/M) + (v*y/N)));
     }
   }
   return result/(M*N);
@@ -105,7 +105,7 @@ IDft2d::IDft2d(const cv::Mat &re, const cv::Mat &im)
 {
   this->Re_ = re.clone();
   this->Im_ = im.clone();
-  this->inv_img_ = cv::Mat(Re_.rows, Re_.cols, CV_64FC1);
+  this->inv_img_ = cv::Mat(Re_.rows, Re_.cols, CV_8UC1);
 }
 
 void IDft2d::computeIDft(int num_threads=8)
@@ -137,7 +137,7 @@ void IDft2d::IdftTask(int min_rows, int max_rows)
   {
     for (int j = 0; j < inv_img_.cols; j++) 
     {
-      inv_img_.at<double>(i, j) = this->getIDftValue(j, i);
+      inv_img_.at<uint8_t>(i, j) = this->getIDftValue(j, i);
       dtf_p_count_mtx_.lock();
       dtf_p_count_ += 1;
       dtf_p_count_mtx_.unlock();
@@ -171,9 +171,9 @@ double IDft2d::getIDftValue(int x, int y)
   {
     for (int u = 0; u < M; u++) 
     {
-      std::complex<double> Fuv = Re_.at<double>(v, u)+Im_.at<double>(v, u)*i;
+      std::complex<double> Fuv = Re_.at<double>(v, u) + Im_.at<double>(v, u)*i;
       result += Fuv*exp(2.0*i*M_PI*(u*x/M+v*y/M));
     }
   }
-  return abs(result)*pow(-1, x+y);
+  return result.real()*pow(-1, x+y);
 }
