@@ -96,7 +96,7 @@
 		
 	\HRule\\[0.4cm]
 		
-	{\huge\bfseries HW\#3 Grey Level Transformation \& Histogram Equalization}\\[0.4cm] % Title of your document
+	{\huge\bfseries HW\#5 2D Discrete Fourier Transform (DFT)}\\[0.4cm] % Title of your document
 		
 	\HRule\\[1.5cm]
 		
@@ -149,22 +149,54 @@
 	\end{titlepage}
 	\begin{reportsection}{-1cm}{-1cm}
 		%----------------------------------------------------------------------------------------
-		\section*{Problem 1}
+		\section*{Problem 1~DFT 2D (65\%) (C/C++)}
 		\begin{enumerate}[label=\alph*.]
 			\item 
-			      \blindtext[1]
-			      \subsection*{Ans}
-			      \blindtext[1]
+				Write your own DFT algorithm (with origin shifted to center) to perform on lena512.raw and
+				lena512\_noise.raw. Show the output of magnitude spectra and execution time of each image.
+				Discuss the difference of each result image. (Figure, 10\%; Discussion, 5\%)
+				\subsection*{Ans}
+				
+			\item
+				Write your own IDFT algorithm and test on DFT output from (a). Show the result images.
+				Check whether your output images can be exactly transformed back to the original images or
+				not. Discuss if there is any difference between them. (Figure, 10\%; Discussion, 5\%)
+				\subsection*{Ans}
+
+			\item
+				Use the OpenCV built-in DFT and IDFT function to redo (a) \& (b). Discuss the difference in
+				execution time and result images. (Figure, 10\%; Discussion, 5\%)
+				\subsection*{Ans}
+			
+			\item	
+				Use spatial median filter and low pass (mean) filter with mask size 5 on lena512\_noise.raw
+				respectively. Following that, perform the DFT on them. (can Show the result images. Discuss
+				the difference between these magnitude spectra. (Figure, 10\%; Discussion, 10\%)
+				\subsection*{Ans}
+
 		\end{enumerate}
-		
-		\begin{thebibliography}{9}
-			\bibitem{MSE-wiki} Wikipedia. \emph{Mean squared error}[online]. \\
-			Available from World Wide Web: (https://en.wikipedia.org/wiki/Mean\_squared\_error).
-			\bibitem{PSNR-wiki} Wikipedia. \emph{Peak signal-to-noise ratio}[online].\\
-			Available from World Wide Web: \\
-			(https://en.wikipedia.org/wiki/Peak\_signal-to-noise\_ratio).
-		\end{thebibliography}
-		
 	\end{reportsection}
-	
+	\begin{reportsection}{-1cm}{-1cm}
+		\section*{Problem 2~Filtering in Frequency (35\%)}
+		\textit{~~~~This problem tries to remove the background dot noises of the fingerprint image
+				finger\_point.raw.}
+		\begin{enumerate}[label=\alph*.]
+			\item 
+				In order to analyze the noise, you need to use DFT to transform finger\_point.raw to frequency
+				domain. Show the output of the magnitude spectra result. (Figure, 5\%; Discussion, 5\%)
+				\subsection*{Ans}
+
+			\item 
+				Design a filter in frequency domain to remove the frequency of the noises. How do you design
+				it? Explain it. (Figure, 5\%; Discussion, 5\%)
+				\subsection*{Ans}
+
+			\item
+				Show the output of the magnitude spectra result after removing the noise. Perform IDFT on
+				the frequency-domain output to obtain the noise removal fingerprint result (Figure, 10%;
+				Discussion, 5\%)
+				\subsection*{Ans}
+
+		\end{enumerate}
+	\end{reportsection}
 \end{document}
