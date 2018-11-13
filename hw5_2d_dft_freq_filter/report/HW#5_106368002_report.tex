@@ -53,8 +53,11 @@
 \usepackage[most]{tcolorbox}
 \usepackage{xcolor}
 
+\usepackage{scrextend} % add margin
+
 \newenvironment{reportsection}[2]{%
 \begin{list}{}{%
+% \addtolength{\topmargin}{-.875in}
 \setlength{\topsep}{0pt}%
 \setlength{\leftmargin}{#1}%
 \setlength{\rightmargin}{#2}%
@@ -147,54 +150,155 @@
 		% \vfill % Push the date up 1/4 of the remaining page
 			
 	\end{titlepage}
-	\begin{reportsection}{-1cm}{-1cm}
+	\begin{reportsection}{-1cm}{0cm}
 		%----------------------------------------------------------------------------------------
 		\section*{Problem 1~DFT 2D (65\%) (C/C++)}
 		\begin{enumerate}[label=\alph*.]
 			\item 
-				Write your own DFT algorithm (with origin shifted to center) to perform on lena512.raw and
-				lena512\_noise.raw. Show the output of magnitude spectra and execution time of each image.
-				Discuss the difference of each result image. (Figure, 10\%; Discussion, 5\%)
+				Write your own DFT algorithm (with origin shifted to center) to perform on 
+				lena512.raw and lena512\_noise.raw. Show the output of magnitude spectra and 
+				execution time of each image. Discuss the difference of each result image. 
+				(Figure, 10\%; Discussion, 5\%)
 				\subsection*{Ans}
-				
+				\begin{figure}[h!]
+					\centering
+					\begin{subfigure}[t]{0.45\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/lena_dft"}.png}
+						\caption{Lena 512 DFT.}
+						\label{fig:lena-dft-org}
+					\end{subfigure}
+					\hfill 
+					\begin{subfigure}[t]{0.45\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/lena_noise_dft"}.png} 
+						\caption{Lena 512 noised DFT.}
+						\label{fig:lena-dft-noise}
+					\end{subfigure}
+					\caption{Lena and Lena noised DFT results}
+					\label{fig:lena-dft}
+				\end{figure}
+				\begin{figure}[h!]
+					\centering
+					\includegraphics[width=0.8\textwidth]{{"./img_src/dft_terminal"}.png} 
+					\caption{DFT execution time}
+					\label{fig:lena-dft}
+				\end{figure}
+				\newpage
 			\item
 				Write your own IDFT algorithm and test on DFT output from (a). Show the result images.
 				Check whether your output images can be exactly transformed back to the original images or
 				not. Discuss if there is any difference between them. (Figure, 10\%; Discussion, 5\%)
 				\subsection*{Ans}
-
+				\begin{figure}[h!]
+					\centering
+					\begin{subfigure}[t]{0.45\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/lena_idft"}.png}
+						\caption{Lena 512 IDFT from Figure~\ref{fig:lena-dft-org}.}
+						\label{fig:lena-idft-org}
+					\end{subfigure}
+					\hfill 
+					\begin{subfigure}[t]{0.45\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/lena_noise_idft"}.png} 
+						\caption{Lena 512 noised IDFT from Figure~\ref{fig:lena-dft-noise}.}
+						\label{fig:lena-idft-noise}
+					\end{subfigure}
+					\caption{Lena and Lena noised IDFT results.}
+					\label{fig:lena-idft}
+				\end{figure}
+				\newpage
 			\item
 				Use the OpenCV built-in DFT and IDFT function to redo (a) \& (b). Discuss the difference in
 				execution time and result images. (Figure, 10\%; Discussion, 5\%)
 				\subsection*{Ans}
-			
+				\begin{figure}[h!]
+					\centering
+					\begin{subfigure}[t]{0.45\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/cv_lena_dft"}.png}
+						\caption{Lena 512 DFT.}
+						\label{fig:cv-lena-dft-org}
+					\end{subfigure}
+					\hfill 
+					\begin{subfigure}[t]{0.45\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/cv_lena_noise_dft"}.png} 
+						\caption{Lena 512 noised DFT.}
+						\label{fig:lena-dft-noise}
+					\end{subfigure}
+					\caption{Lena and Lena noised DFT results}
+					\label{fig:lena-dft}
+				\end{figure}
+				\begin{figure}[h!]
+					\centering
+					\includegraphics[width=0.8\textwidth]{{"./img_src/cv_dft_terminal"}.png} 
+					\caption{DFT execution time}
+					\label{fig:lena-dft}
+				\end{figure}
+				\newpage
 			\item	
 				Use spatial median filter and low pass (mean) filter with mask size 5 on lena512\_noise.raw
 				respectively. Following that, perform the DFT on them. (can Show the result images. Discuss
 				the difference between these magnitude spectra. (Figure, 10\%; Discussion, 10\%)
 				\subsection*{Ans}
-
+				\begin{figure}[h!]
+					\centering
+					\begin{subfigure}[t]{0.45\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/lena_noise_box_dft"}.png}
+						\caption{Lena 512 Box filter DFT.}
+						\label{fig:lena-box-dft}
+					\end{subfigure}
+					\hfill 
+					\begin{subfigure}[t]{0.45\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/lena_noise_median_dft"}.png} 
+						\caption{Lena 512 Median filter DFT.}
+						\label{fig:lena-median-df}
+					\end{subfigure}
+					\caption{Lena noise LPF DFT results}
+					\label{fig:lena-lpf-dft}
+				\end{figure}
 		\end{enumerate}
 	\end{reportsection}
-	\begin{reportsection}{-1cm}{-1cm}
+	\begin{reportsection}{-1cm}{0cm}
 		\section*{Problem 2~Filtering in Frequency (35\%)}
-		\textit{~~~~This problem tries to remove the background dot noises of the fingerprint image
-				finger\_point.raw.}
+		\begin{addmargin}[1em]{0em}
+			\textit{This problem tries to remove the background dot noises of the fingerprint 
+			image finger\_point.raw.}
+		\end{addmargin}
 		\begin{enumerate}[label=\alph*.]
 			\item 
-				In order to analyze the noise, you need to use DFT to transform finger\_point.raw to frequency
-				domain. Show the output of the magnitude spectra result. (Figure, 5\%; Discussion, 5\%)
+				In order to analyze the noise, you need to use DFT to transform finger\_point.raw 
+				to frequency domain. Show the output of the magnitude spectra result. 
+				(Figure, 5\%; Discussion, 5\%)
 				\subsection*{Ans}
-
+				\begin{figure}[h!]
+					\centering
+					\begin{subfigure}[t]{0.45\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/fingerpoint_src"}.png}
+						\caption{Fingerpoint source image.}
+						\label{fig:fingerpoint-src}
+					\end{subfigure}
+					\hfill 
+					\begin{subfigure}[t]{0.45\linewidth}
+						\includegraphics[width=\textwidth]{{"../result_img/fingerpoint_source_sp"}.png} 
+						\caption{Fingerpoint DFT.}
+						\label{fig:fingerpoint-sp}
+					\end{subfigure}
+					\caption{Finger Point}
+					\label{fig:fingerpoint}
+				\end{figure}
+				\newpage
 			\item 
 				Design a filter in frequency domain to remove the frequency of the noises. How do you design
 				it? Explain it. (Figure, 5\%; Discussion, 5\%)
 				\subsection*{Ans}
-
+				\begin{figure}[h!]
+					\centering
+					\includegraphics[width=0.4\textwidth]{{"../result_img/filter"}.png}  
+					\caption{Filter}
+					\label{fig:lena-dft}
+				\end{figure}
+				\newpage
 			\item
-				Show the output of the magnitude spectra result after removing the noise. Perform IDFT on
-				the frequency-domain output to obtain the noise removal fingerprint result (Figure, 10%;
-				Discussion, 5\%)
+				Show the output of the magnitude spectra result after removing the noise. 
+				Perform IDFT on the frequency-domain output to obtain the noise removal 
+				fingerprint result (Figure, 10\%; Discussion, 5\%)
 				\subsection*{Ans}
 
 		\end{enumerate}

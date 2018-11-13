@@ -36,7 +36,11 @@ cv::Mat Dft2d::getSpectrumImg()
       img_out.at<uint8_t>(i, j) = abs(z);
     }
   }
+  // TODO Enhancement
+  cv::normalize(img_out, img_out, 0, 255, cv::NORM_MINMAX, CV_8UC1);
   return img_out;
+  // HistogramEq eq_out(img_out, 256);
+  // return eq_out.getEqImage();
 }
 
 cv::Mat Dft2d::getRealMat()

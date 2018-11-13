@@ -6,6 +6,7 @@
 #include <mutex>
 #include <chrono>
 #include <opencv2/opencv.hpp>
+#include "histogram_equalization.hpp"
 
 class Dft2d {
   public:
