@@ -127,7 +127,6 @@ cv::Mat medianFilter(cv::Mat &src, cv::Mat &mask)
   {
     for (int j = 0; j < src.cols; j++)
     {
-      double px = 0;
       int i_offset = i + pad_y;
       int j_offset = j + pad_x;
       std::vector<uint8_t> mask_px;
@@ -158,7 +157,7 @@ cv::Mat thresholding(cv::Mat &src, double th)
   }
 
   // get the best threshold
-  int best_th;
+  int best_th = 0;
   double cdf = 0;
   double img_size = src.rows * src.cols;
   for (int i = 0; i < his.size(); i++)

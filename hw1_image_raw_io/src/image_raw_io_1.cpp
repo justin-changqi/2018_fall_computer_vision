@@ -149,9 +149,6 @@ int main(int argc, char **argv)
   cv::destroyWindow("lenaFile");
   cv::destroyWindow("lenaRotated");
   cv::destroyWindow("lenaRotatedFace");
-  delete lenai;
-  delete lena_face_rot_raw;
-  delete lena_bright_raw;
   lenaMat.release();
   lenaMat_rotated.release();
   lenaMat_rotated_face.release();

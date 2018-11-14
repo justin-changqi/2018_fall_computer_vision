@@ -5,14 +5,14 @@
 Homework source code for 2018 fall term computer vision course at Taipei Tech MS program.
 
 ## System Environment
-- Ubuntu16.04
-- OpenCV 3.3
-- CMake 2.8
-- C++ 11
+-  Ubuntu16.04
+-  OpenCV 3.3
+-  CMake 2.8
+-  C++ 11
 
 ## Compile and execute code
 This repository consists of mutiple CMake projects. Please follow the steps below for building the source code and execute.
-```
+```bash
 # build
 cd CMAKE_PROJECT_FOLDER
 mkdir build && cd build
@@ -23,6 +23,6 @@ make
 ```
 
 ## Crate new homework Cmake project
-```
+```bash
 ./create_new_hw.sh <project_name> <hw_order> <first_cpp_file> <second_cpp_file> ... 
 ```

@@ -91,7 +91,6 @@ void nearestNeighboring(cv::Mat &src_img, cv::Mat &dst_img)
       if (mat_status.at<char>(y, x) == 0)
       {
         mat_status.at<char>(y, x) = 1;
-        std::array<int, 2> index{ {y, x} }; 
         dst_img.at<char>(y, x) =  src_img.at<char>(i, j);
       }
     }

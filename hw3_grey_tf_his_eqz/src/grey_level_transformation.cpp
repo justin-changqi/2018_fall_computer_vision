@@ -91,7 +91,7 @@ void plotCurves(cv::Mat &plot, std::vector<std::vector<cv::Point2f> > curvesPoin
 
 double linearFunc(uint8_t value, cv::Point2f r1s1, cv::Point2f r2s2, double L = 255)
 {
-  if (value >= 0 && value < r1s1.x)
+  if (value < r1s1.x)
   {
     double m = r1s1.y / r1s1.x;
     return m*value;

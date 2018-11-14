@@ -21,7 +21,6 @@ class Filter
   cv::Mat applyMask(cv::Mat &src_img, cv::Mat &mask);
   void addPadding(cv::Mat &src_img, cv::Mat &mask);
   cv::Mat sumImgs(std::vector<cv::Mat> img_lists);
-  int det(int n, cv::Mat &mat);
   int det(cv::Mat &mat);
   cv::Mat refineImg(cv::Mat &src);
   cv::Mat Normalize(cv::Mat &src);

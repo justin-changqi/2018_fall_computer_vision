@@ -128,44 +128,6 @@ cv::Mat Filter::sumImgs(std::vector<cv::Mat> img_list)
   return out_img;
 }
 
-int Filter::det(int n, cv::Mat &mat)
-{
-  // std::cout << n << std::endl;
-  
-  int c, subi, i, j, subj;
-  cv::Mat submat(n, n, CV_32SC1);
-  
-  if (n == 2) 
-  {   
-    return( (mat.at<int>(0,0) * mat.at<int>(1,1)) - 
-            (mat.at<int>(1,0) * mat.at<int>(0,1)));
-  }
-  else
-  {  
-    for(c = 0; c < n; c++)
-    {  
-      subi = 0;  
-      for(i = 1; i < n; i++)
-      {  
-        subj = 0;
-        for(j = 0; j < n; j++)
-        {    
-          if (j == c)
-          {
-            continue;
-          }
-          submat.at<int>(subi, subj) = mat.at<int>(i,j);
-          subj++;
-        }
-        subi++;
-      }
-      this->det_d = this->det_d + (pow(-1 ,c) * mat.at<int>(0,c) * 
-                    this->det(n - 1 ,submat));
-    }
-  }
-  return this->det_d;
-}
-
 int Filter::det(cv::Mat &mat)
 {
   return mat.at<int>(0,0)*mat.at<int>(1,1)*mat.at<int>(2,2)+

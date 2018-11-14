@@ -55,7 +55,6 @@ int main(int argc, char **argv)
 
   fclose(lenaFile);
   cv::waitKey(0);
-  delete lenai;
   lenaMat.release();
   return 0;
 }
