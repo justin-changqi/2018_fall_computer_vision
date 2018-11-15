@@ -6,8 +6,10 @@ class CvDft2d {
   CvDft2d(cv::Mat &src_img);
   void computeDft();
   cv::Mat getSpectrumImg();
+  static cv::Mat getSpectrumImg(const cv::Mat &complex);
   cv::Mat getRealMat();
   cv::Mat getImagMat();
+  cv::Mat getComplex();
   private:
   cv::Mat src_img_;
   cv::Mat complex_;
@@ -16,6 +18,7 @@ class CvDft2d {
 class CvIDft2d {
   public:
   CvIDft2d(const cv::Mat &re, const cv::Mat &im);
+  CvIDft2d(const cv::Mat &complex);
   void computeIDft();
   cv::Mat getInvImg();
 
