@@ -108,8 +108,9 @@ void CvIDft2d::computeIDft()
 
 cv::Mat CvIDft2d::getInvImg()
 {
-  cv::normalize(inv_img_, inv_img_, 0, 255, CV_MINMAX, CV_8UC1);
-  return inv_img_.clone();
+  cv::Mat img_out(inv_img_.size(), CV_8UC1);
+  cv::normalize(inv_img_, img_out, 0, 255, CV_MINMAX, CV_8UC1);
+  return img_out;
 }
 
 

@@ -53,4 +53,25 @@ namespace fdf {
     }
     return out_img;
   }
+  
+  cv::Mat gaussianLpf(const cv::Mat &src, double d0)
+  {
+    return getGLpfKernel(d0, src.cols, src.rows);
+  }
+
+  cv::Mat getGLpfKernel(double d0, int width, int height)
+  {
+    cv::Mat out_img(height, width, CV_32FC1); 
+    int cx =  out_img.cols / 2;
+    int cy =  out_img.rows / 2;
+    for (int i = 0; i < out_img.rows; i++)
+    {
+      for (int j = 0; j < out_img.cols; j++)
+      {
+        float d2uv = pow(cx-j, 2)+pow(cy-i, 2);
+        out_img.at<float>(i, j) = exp(-d2uv/pow(d0, 2));
+      }
+    }
+    return out_img;
+  }
 }
