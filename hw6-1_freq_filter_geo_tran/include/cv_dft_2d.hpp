@@ -6,6 +6,7 @@ class CvDft2d {
   CvDft2d(cv::Mat &src_img);
   void computeDft();
   cv::Mat getSpectrumImg();
+  static cv::Mat getSpectrumImg(const cv::Mat &complex);
   cv::Mat getRealMat();
   cv::Mat getImagMat();
   cv::Mat getComplex();
