@@ -53,7 +53,7 @@ namespace fdf {
     }
     return out_img;
   }
-  
+
   cv::Mat gaussianLpf(const cv::Mat &src, double d0)
   {
     return getGLpfKernel(d0, src.cols, src.rows);
@@ -70,6 +70,49 @@ namespace fdf {
       {
         float d2uv = pow(cx-j, 2)+pow(cy-i, 2);
         out_img.at<float>(i, j) = exp(-d2uv/pow(d0, 2));
+      }
+    }
+    return out_img;
+  }
+
+  cv::Mat ButterworthLpf(const cv::Mat &src, double d0, int order)
+  {
+    return getBLpfKernel(d0, order, src.cols, src.rows);
+  }
+
+  cv::Mat getBLpfKernel(double d0, int order, int width, int height)
+  {
+    cv::Mat out_img(height, width, CV_32FC1); 
+    int cx =  out_img.cols / 2;
+    int cy =  out_img.rows / 2;
+    for (int i = 0; i < out_img.rows; i++)
+    {
+      for (int j = 0; j < out_img.cols; j++)
+      {
+        float duv = hypot(cx-j, cy-i);
+        out_img.at<float>(i, j) = 1./(1+pow(duv/d0, 2*order));
+      }
+    }
+    return out_img;
+  }
+
+  cv::Mat HomomorphicLpf(const cv::Mat &src, double gamma_l, 
+                         double gamma_h, double c, double d0)
+  {
+    return getHLpfKernel(gamma_l, gamma_h, c, d0, src.cols, src.rows);
+  }
+  cv::Mat getHLpfKernel( double gamma_l, double gamma_h, double c, 
+                         double d0, int width, int height)
+  {
+    cv::Mat out_img(height, width, CV_32FC1); 
+    int cx =  out_img.cols / 2;
+    int cy =  out_img.rows / 2;
+    for (int i = 0; i < out_img.rows; i++)
+    {
+      for (int j = 0; j < out_img.cols; j++)
+      {
+        float d2uv = pow(cx-j, 2)+pow(cy-i, 2);
+        out_img.at<float>(i, j) = (gamma_h - gamma_l)*(1-exp(-c*(d2uv/pow(d0, 2)))+gamma_l);
       }
     }
     return out_img;

@@ -25,3 +25,6 @@ target_link_libraries( freq_filters ${OpenCV_LIBS} )
 
 add_executable( freq_filters_main src/freq_filters_main.cpp )
 target_link_libraries( freq_filters_main ${OpenCV_LIBS} image_io cv_dft_2d freq_filters)
+
+add_executable( homomorphic_filter_main src/homomorphic_filter_main.cpp )
+target_link_libraries( homomorphic_filter_main ${OpenCV_LIBS} image_io cv_dft_2d freq_filters)
