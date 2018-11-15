@@ -93,6 +93,7 @@ CvIDft2d::CvIDft2d(const cv::Mat &re, const cv::Mat &im)
 {
   cv::Mat planes[] = {re, im};
   cv::merge(planes, 2, complex_);
+  // inv_img_ = complex_.clone();
 }
 
 CvIDft2d::CvIDft2d(const cv::Mat &complex)
@@ -103,13 +104,16 @@ CvIDft2d::CvIDft2d(const cv::Mat &complex)
 
 void CvIDft2d::computeIDft()
 {
-  cv::idft(complex_, inv_img_, cv::DFT_INVERSE|cv::DFT_REAL_OUTPUT);
+  cv::idft(complex_, inv_img_, cv::DFT_INVERSE | cv::DFT_COMPLEX_OUTPUT);
 }
 
 cv::Mat CvIDft2d::getInvImg()
 {
-  cv::Mat img_out(inv_img_.size(), CV_8UC1);
-  cv::normalize(inv_img_, img_out, 0, 255, CV_MINMAX, CV_8UC1);
+  std::vector<cv::Mat> planes(2);
+  cv::split(inv_img_, planes);
+  cv::Mat img_out(inv_img_.size(), CV_32FC1);
+  cv::magnitude(planes[0], planes[1], img_out);
+  cv::normalize(img_out, img_out, 0, 255, CV_MINMAX, CV_8UC1);
   return img_out;
 }
 
