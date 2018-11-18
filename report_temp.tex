@@ -32,7 +32,7 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 
 \usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage[T1]{fontenc} % Output font encoding for international characters
@@ -52,19 +52,25 @@
 \usepackage[export]{adjustbox}
 \usepackage[most]{tcolorbox}
 \usepackage{xcolor}
+\usepackage{geometry}
 
-\newenvironment{reportsection}[2]{%
-\begin{list}{}{%
-\setlength{\topsep}{0pt}%
-\setlength{\leftmargin}{#1}%
-\setlength{\rightmargin}{#2}%
-\setlength{\listparindent}{\parindent}%
-\setlength{\itemindent}{\parindent}%
-\setlength{\parsep}{\parskip}%
+\newenvironment{reportsection}[1]{%
+\section*{#1}%
+\vspace{-1em}
+\begin{enumerate}[label=\alph*.,labelindent=\parindent, leftmargin=0em]{%
+% \setlength{\topmargin}{0cm}%
+% \setlength{\topsep}{0pt}%
+% \setlength{\leftmargin}{0cm}%
+% \setlength{\rightmargin}{0cm}%
+% \setlength{\listparindent}{\parindent}%
+% \setlength{\itemindent}{\parindent}%
+% \setlength{\parsep}{\parskip}%
 }%
-\item[]}{\end{list}}
+\item[]}{\end{enumerate}}
 
-\titlespacing*{\section} {-7pt}{2.5ex plus 1ex minus .2ex}{1.3ex plus .2ex}
+\titlespacing*{\section} {-1.5em}{2.5ex plus 1ex minus .2ex}{1.3ex plus .2ex}
+\titleformat{\section}
+{\normalfont\fontsize{18}{15}\bfseries}{\thesection}{1em}{}
 
 \titlespacing*{\subsection}
 {0pt}{0.1\baselineskip}{0.1\baselineskip}
@@ -96,7 +102,7 @@
 		
 	\HRule\\[0.4cm]
 		
-	{\huge\bfseries HW\#3 Grey Level Transformation \& Histogram Equalization}\\[0.4cm] % Title of your document
+	{\huge\bfseries HW\#6-1 Frequency Domain Filter \& Geometric Transformation}\\[0.4cm] % Title of your document
 		
 	\HRule\\[1.5cm]
 		
@@ -147,23 +153,14 @@
 		% \vfill % Push the date up 1/4 of the remaining page
 			
 	\end{titlepage}
-	\begin{reportsection}{-1cm}{-1cm}
-		%----------------------------------------------------------------------------------------
-		\section*{Problem 1}
-		\begin{enumerate}[label=\alph*.]
-			\item 
-			      \blindtext[1]
-			      \subsection*{Ans}
-			      \blindtext[1]
-		\end{enumerate}
-		
-		\begin{thebibliography}{9}
-			\bibitem{MSE-wiki} Wikipedia. \emph{Mean squared error}[online]. \\
-			Available from World Wide Web: (https://en.wikipedia.org/wiki/Mean\_squared\_error).
-			\bibitem{PSNR-wiki} Wikipedia. \emph{Peak signal-to-noise ratio}[online].\\
-			Available from World Wide Web: \\
-			(https://en.wikipedia.org/wiki/Peak\_signal-to-noise\_ratio).
-		\end{thebibliography}
+	\newgeometry{left=0.8in,right=0.8in,top=1in,bottom=1in}
+	\begin{reportsection}{Problem 1~~~Filter in Frequency domain}
+		\item \blindtext[1]
+		\subsection*{Ans}
+		\blindtext[1]
+		\item \blindtext[1]
+		\subsection*{Ans}
+		\blindtext[1]
 		
 	\end{reportsection}
 	
