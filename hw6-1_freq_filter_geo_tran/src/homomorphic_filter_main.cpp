@@ -13,7 +13,7 @@ int main(int argc, char **argv)
   showImage("fox_src",wolf_src);
   showImage("fox_sp",wolf_sp);
   // Homomorphic filter
-  cv::Mat homo_mask = fdf::HomomorphicLpf(wolf_dft_i, 1.5, 4.0, 2, 100);
+  cv::Mat homo_mask = fdf::HomomorphicLpf(wolf_dft_i, 1, 10, 2, 100);
   cv::Mat homo_filtered_complex(wolf_dft_i.size(), CV_32FC2);
   fdf::applyFilter(wolf_dft_i, homo_mask, homo_filtered_complex);
   cv::Mat homo_filter_spectrum  = CvDft2d::getSpectrumImg(homo_filtered_complex); 

@@ -116,5 +116,3 @@ cv::Mat CvIDft2d::getInvImg()
   cv::normalize(img_out, img_out, 0, 255, CV_MINMAX, CV_8UC1);
   return img_out;
 }
-
-

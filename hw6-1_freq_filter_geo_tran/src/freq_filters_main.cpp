@@ -28,9 +28,9 @@ int main(int argc, char **argv)
   cv::Mat fox_idft_img_50 =  fox_idft_50.getInvImg();
   cv::normalize(ilpf_15, ilpf_15, 0, 255, cv::NORM_MINMAX, CV_8UC1);
   cv::normalize(ilpf_50, ilpf_50, 0, 255, cv::NORM_MINMAX, CV_8UC1);
-  saveImage(ilpf_15, "../result_img/1.a/", "ideal_lpf_15_sp");
+  saveImage(fox_ilpf_15_sp, "../result_img/1.a/", "ideal_lpf_15_sp");
   saveImage(fox_idft_img_15, "../result_img/1.a/", "ideal_lpf_15_idft");
-  saveImage(ilpf_50, "../result_img/1.a/", "ideal_lpf_50_sp");
+  saveImage(fox_ilpf_50_sp, "../result_img/1.a/", "ideal_lpf_50_sp");
   saveImage(fox_idft_img_50, "../result_img/1.a/", "ideal_lpf_50_idft");
 
   // Gaussian LPF 
@@ -48,10 +48,10 @@ int main(int argc, char **argv)
   cv::Mat fox_g_idft_img_50 =  fox_g_idft_50.getInvImg();
   cv::normalize(glpf_15, glpf_15, 0, 255, cv::NORM_MINMAX, CV_8UC1);
   cv::normalize(glpf_50, glpf_50, 0, 255, cv::NORM_MINMAX, CV_8UC1);
-  saveImage(glpf_15, "../result_img/1.a/", "gaussion_lpf_15_sp");
-  saveImage(fox_g_idft_img_15, "../result_img/1.a/", "gaussion_lpf_15_idft");
-  saveImage(glpf_50, "../result_img/1.a/", "gaussion_lpf_50_sp");
-  saveImage(fox_g_idft_img_50, "../result_img/1.a/", "gaussion_lpf_50_idft");
+  saveImage(fox_g_lpf_15_sp, "../result_img/1.a/", "gaussian_lpf_15_sp");
+  saveImage(fox_g_idft_img_15, "../result_img/1.a/", "gaussian_lpf_15_idft");
+  saveImage(fox_g_ilpf_50_sp, "../result_img/1.a/", "gaussian_lpf_50_sp");
+  saveImage(fox_g_idft_img_50, "../result_img/1.a/", "gaussian_lpf_50_idft");
 
   // Butterworth LPF D0 = 15 n = 1
   cv::Mat fox_b_lpf_15_n1(fox_dft_i.rows, fox_dft_i.cols, CV_32FC2);
@@ -128,6 +128,6 @@ int main(int argc, char **argv)
   showImage("mask", blpf_50_n5);
   showImage("filtered sp", fox_b_lpf_50_n5_sp);
   showImage("idft", fox_b_idft_50_n5_img);
-  cv::waitKey(0);
+  // cv::waitKey(0);
   return 0;
 }
