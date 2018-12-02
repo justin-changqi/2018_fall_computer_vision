@@ -3,9 +3,8 @@
 void loadRawFile(cv::Mat &dst_img, const std::string file_path, int width, int height)
 {
   std::FILE* f = std::fopen(file_path.c_str(), "rb");
-  // std::vector<char> buf(width*height);    // char is trivally copyable
-  unsigned char buf[width][height];
-  std::fread(&buf[0], sizeof buf[0], width*height, f);
+  unsigned char buf[height][width];
+  std::fread(&buf[0][0], sizeof buf[0][0], width*height, f);
   for (int i = 0; i < dst_img.rows; i++)
   {
     for (int j = 0; j < dst_img.cols; j++)
@@ -14,6 +13,23 @@ void loadRawFile(cv::Mat &dst_img, const std::string file_path, int width, int h
     }
   }
   std::fclose(f);
+}
+
+cv::Mat loadRawFile(const std::string file_path, int width, int height)
+{
+  cv::Mat dst_img(height, width, CV_8UC1);
+  std::FILE* f = std::fopen(file_path.c_str(), "rb");
+  unsigned char buf[height][width];
+  std::fread(&buf[0][0], sizeof buf[0][0], width*height, f);
+  for (int i = 0; i < dst_img.rows; i++)
+  {
+    for (int j = 0; j < dst_img.cols; j++)
+    {
+      dst_img.at<char>(i, j) = buf[i][j];
+    }
+  }
+  std::fclose(f);
+  return dst_img.clone();
 }
 
 void showImage(std::string win_name, cv::Mat &show_img)
