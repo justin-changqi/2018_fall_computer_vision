@@ -1,6 +1,6 @@
 #!/bin/bash
 _project_name=$1
-_report_name=HW#$2_106368002_report.tex
+_report_name=HW$2_106368002_report.tex
 _src_codes_list=${@:3}
 echo "Create project: "$_project_name
 echo "Create source code: " 
