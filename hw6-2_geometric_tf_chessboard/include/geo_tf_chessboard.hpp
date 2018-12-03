@@ -8,7 +8,8 @@
 class geoTfChessboard
 {
   public:
-  cv::Mat chessboard_draw_;
+  cv::Mat chessboard_src_draw_;
+  cv::Mat chessboard_dst_draw_;
   geoTfChessboard(const cv::Mat &chessboard_src, 
                   const cv::Mat &chessboard_dst,
                   const cv::Size patternsize);
@@ -17,6 +18,7 @@ class geoTfChessboard
   private:
   cv::Point2f center_pt_;
   Eigen::MatrixXf k_;
+  Eigen::MatrixXf p_;
   void computeDistortionParam(const std::vector<cv::Point2f> orig_pt,
                               const std::vector<cv::Point2f> distr_pt);
 };
